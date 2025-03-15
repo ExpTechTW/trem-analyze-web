@@ -77,7 +77,7 @@ export default function EarthquakeInfoTable() {
       <div className="p-4 text-center text-3xl font-bold">
         TREM EEW
       </div>
-      <div className="pr-30 pl-30">
+      <div className="pr-8 pl-8">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
             <TableRow>
@@ -147,12 +147,6 @@ export default function EarthquakeInfoTable() {
               </TableRow>
             ))}
           </TableBody>
-          {/* <TableFooter>
-            <TableRow>
-              <TableCell colSpan={3}>Total</TableCell>
-              <TableCell className="text-right">$2,500.00</TableCell>
-            </TableRow>
-          </TableFooter> */}
           <TableCaption>Taiwan Real-time Earthquake Monitoring｜2025｜ExpTech Studio</TableCaption>
         </Table>
       </div>
