@@ -7,7 +7,7 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
+  // TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -61,6 +61,12 @@ const invoices = [
 export default function EarthquakeInfoTable() {
   const [earthquakeInfo, setEarthquakeInfo] = useState<Array<EarthquakeInfo>>([]);
 
+  // function searchEq(id: string, eq_data: Array<EarthquakeInfo>) {
+  //   for (const eq of eq_data) {
+  //     if (eq.id == id) return eq;
+  //   }
+  // }
+
   useEffect(() => {
     if (!earthquakeInfo.length) return;
     console.log(earthquakeInfo);
@@ -80,7 +86,7 @@ export default function EarthquakeInfoTable() {
       <div className="p-4 text-center text-3xl font-bold">
         TREM EEW
       </div>
-      <div className="pr-4 pl-4">
+      <div className="pr-30 pl-30">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
             <TableRow>
@@ -130,12 +136,17 @@ export default function EarthquakeInfoTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {invoices.map((invoice) => (
-              <TableRow key={invoice.invoice}>
-                <TableCell className="border border-gray-300">{invoice.invoice}</TableCell>
-                <TableCell className="border border-gray-300">{invoice.paymentStatus}</TableCell>
-                <TableCell className="border border-gray-300">{invoice.paymentMethod}</TableCell>
-                <TableCell className="border border-gray-300 text-right">{invoice.totalAmount}</TableCell>
+            {earthquakeInfo.map((earthquakeData, index) => (
+              <TableRow key={earthquakeData.id}>
+                <TableCell className="border border-gray-300 text-center">{index + 1}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{earthquakeData.id}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{earthquakeData.paymentMethod}</TableCell>
+                <TableCell className={`
+                  border border-gray-300 text-center text-right
+                `}
+                >
+                  {earthquakeData.totalAmount}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
