@@ -84,26 +84,49 @@ export default function EarthquakeInfoTable() {
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">No.</TableHead>
-              <TableHead>EventID</TableHead>
-              <TableHead>發表單位</TableHead>
-              <TableHead className="text-center">報數</TableHead>
-              <TableHead className="text-center">檢知時刻</TableHead>
-              <TableHead className="text-center">發震時刻(CWA)</TableHead>
-              <TableHead className="text-center">震央地名</TableHead>
-              <TableHead className="text-center">北緯</TableHead>
-              <TableHead className="text-center">東經</TableHead>
-              <TableHead className="text-center">深度</TableHead>
-              <TableHead className="text-center">規模</TableHead>
-              <TableHead className="text-center">預估最大震度</TableHead>
-              <TableHead className="text-center">實測最大震度(CWA)</TableHead>
-              <TableHead className="text-center">
+              <TableHead
+                rowSpan={2}
+                className="border border-gray-300 text-center"
+              >
+                No.
+              </TableHead>
+              <TableHead
+                rowSpan={2}
+                className="border border-gray-300 text-center"
+              >
+                EventID
+              </TableHead>
+              <TableHead
+                rowSpan={2}
+                className="border border-gray-300 text-center"
+              >
+                發表單位
+              </TableHead>
+              <TableHead
+                colSpan={12}
+                className="border border-gray-300 text-center"
+              >
+                震源・EEW資訊
+              </TableHead>
+            </TableRow>
+
+            <TableRow>
+              <TableHead className="border border-gray-300 text-center">報數</TableHead>
+              <TableHead className="border border-gray-300 text-center">檢知時刻</TableHead>
+              <TableHead className="border border-gray-300 text-center">發震時刻(CWA)</TableHead>
+              <TableHead className="border border-gray-300 text-center">震央地名</TableHead>
+              <TableHead className="border border-gray-300 text-center">北緯</TableHead>
+              <TableHead className="border border-gray-300 text-center">東經</TableHead>
+              <TableHead className="border border-gray-300 text-center">深度</TableHead>
+              <TableHead className="border border-gray-300 text-center">規模</TableHead>
+              <TableHead className="border border-gray-300 text-center">預估最大震度</TableHead>
+              <TableHead className="border border-gray-300 text-center">實測最大震度(CWA)</TableHead>
+              <TableHead className="border border-gray-300 text-center">
                 實測最大長周期
                 <br />
                 地震動階級
               </TableHead>
-              <TableHead className="text-center">RTS</TableHead>
-
+              <TableHead className="border border-gray-300 text-center">RTS</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -116,12 +139,12 @@ export default function EarthquakeInfoTable() {
               </TableRow>
             ))}
           </TableBody>
-          <TableFooter>
+          {/* <TableFooter>
             <TableRow>
               <TableCell colSpan={3}>Total</TableCell>
               <TableCell className="text-right">$2,500.00</TableCell>
             </TableRow>
-          </TableFooter>
+          </TableFooter> */}
           <TableCaption>Taiwan Real-time Earthquake Monitoring｜2025｜ExpTech Studio</TableCaption>
         </Table>
       </div>
