@@ -1,9 +1,9 @@
-export interface EarthquakeInfo {
+export interface EarthquakeReport {
   id: string;
   lat: number;
   lon: number;
   depth: number;
-  loc: string;
+  loc?: string;
   mag: number;
   time: number;
   int: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
@@ -11,7 +11,7 @@ export interface EarthquakeInfo {
   md5: string;
 }
 
-export interface TremEarthquakeInfo {
+export interface EarthquakeInfo {
   ID: string;
   Serial: number;
   Source: string;
@@ -21,11 +21,21 @@ export interface TremEarthquakeInfo {
   Lon: number;
   Depth: number;
   Mag: number;
-  Max: number;
+  Max: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   Lpgm: number;
   Alarm: number;
   False_alarm: number;
   Cancel: number;
   Triggered: number;
   List: string;
+}
+
+export interface EarthquakeData extends EarthquakeReport {
+  Source: string;
+  Serial: number;
+  Loc: string;
+  Max: number;
+  Lpgm: number;
+  Alarm: number;
+  url: string;
 }

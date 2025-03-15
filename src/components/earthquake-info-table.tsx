@@ -1,85 +1,76 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { EarthquakeInfo } from '@/modal/earthquake-info';
+import { EarthquakeData, EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake-info';
+import { searchEq } from '@/lib/utils';
 
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-  // TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from './ui/table';
 
-const invoices = [
-  {
-    invoice: 'INV001',
-    paymentStatus: 'Paid',
-    totalAmount: '$250.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    invoice: 'INV002',
-    paymentStatus: 'Pending',
-    totalAmount: '$150.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    invoice: 'INV003',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$350.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    invoice: 'INV004',
-    paymentStatus: 'Paid',
-    totalAmount: '$450.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    invoice: 'INV005',
-    paymentStatus: 'Paid',
-    totalAmount: '$550.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    invoice: 'INV006',
-    paymentStatus: 'Pending',
-    totalAmount: '$200.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    invoice: 'INV007',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$300.00',
-    paymentMethod: 'Credit Card',
-  },
-];
-
 export default function EarthquakeInfoTable() {
   const [earthquakeInfo, setEarthquakeInfo] = useState<Array<EarthquakeInfo>>([]);
+  const [earthquakeReport, setEarthquakeReport] = useState<Array<EarthquakeReport>>([]);
+  const [earthquakeData, setEarthquakeData] = useState<Array<EarthquakeData>>([]);
 
-  // function searchEq(id: string, eq_data: Array<EarthquakeInfo>) {
-  //   for (const eq of eq_data) {
-  //     if (eq.id == id) return eq;
-  //   }
-  // }
+  const router = useRouter();
+
+  const openNewWindow = (id: string) => {
+    void router.push(`/info?id=${id}`);
+  };
 
   useEffect(() => {
-    if (!earthquakeInfo.length) return;
-    console.log(earthquakeInfo);
-  }, [earthquakeInfo]);
+    const fetchEarthquakeReport = async () => {
+      const res = await fetch(`https://api-1.exptech.dev/api/v2/eq/report?limit=50&key=`);
+      const ans = await res.json() as Array<EarthquakeReport>;
+      setEarthquakeReport(ans);
+    };
+    void fetchEarthquakeReport();
+  }, []);
 
   useEffect(() => {
     const fetchEarthquakeInfo = async () => {
-      const res = await fetch(`https://api-1.exptech.dev/api/v2/eq/report?limit=50&key=`);
+      const res = await fetch(`https://api-1.exptech.dev/api/v1/trem/list?key=undefined`);
       const ans = await res.json() as Array<EarthquakeInfo>;
       setEarthquakeInfo(ans);
     };
     void fetchEarthquakeInfo();
   }, []);
+
+  useEffect(() => {
+    if (!earthquakeInfo.length && !earthquakeReport.length) return;
+    const earthquakeDataArray: Array<EarthquakeData> = [];
+    for (const data of earthquakeInfo) {
+      const eq = (data.Cwa_id) ? searchEq(data.Cwa_id, earthquakeReport) : null;
+      if (!eq) continue;
+      const for_data: EarthquakeData = {
+        id: eq.id,
+        Source: data.Source,
+        Serial: data.Serial,
+        time: eq.time,
+        trem: eq.trem,
+        Loc: data.Loc,
+        lat: eq.lat,
+        lon: eq.lon,
+        depth: eq.depth,
+        mag: data.Mag,
+        Max: data.Max,
+        int: eq.int,
+        Lpgm: data.Lpgm,
+        Alarm: data.Alarm,
+        md5: eq.md5,
+        url: data.ID,
+      };
+      earthquakeDataArray.push(for_data);
+    }
+    setEarthquakeData(earthquakeDataArray);
+  }, [earthquakeInfo, earthquakeReport]);
 
   return (
     <div>
@@ -136,17 +127,23 @@ export default function EarthquakeInfoTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {earthquakeInfo.map((earthquakeData, index) => (
-              <TableRow key={earthquakeData.id}>
+            {earthquakeData.map((data, index) => (
+              <TableRow key={data.id}>
                 <TableCell className="border border-gray-300 text-center">{index + 1}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{earthquakeData.id}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{earthquakeData.paymentMethod}</TableCell>
-                <TableCell className={`
-                  border border-gray-300 text-center text-right
-                `}
-                >
-                  {earthquakeData.totalAmount}
-                </TableCell>
+                <TableCell className="border border-gray-300 text-center" onClick={() => openNewWindow(data.url)}>{data.id}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Source}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Serial}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.time}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.trem}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Loc}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.lat}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.lon}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.depth}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.mag}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Max}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.int}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Lpgm}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Alarm ? 'TRUE' : ''}</TableCell>
               </TableRow>
             ))}
           </TableBody>
