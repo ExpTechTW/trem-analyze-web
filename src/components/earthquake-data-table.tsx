@@ -41,7 +41,7 @@ export default function EarthquakeData() {
 
   useEffect(() => {
     const fetchRegion = async () => {
-      const ans = await fetch(`https://raw.githubusercontent.com/ExpTechTW/API/master/resource/region.json`);
+      const ans = await fetch(`https://raw.githack.com/ExpTechTW/API/master/resource/region.json`);
       const res = await ans.json() as Region;
 
       console.log(res);
@@ -52,7 +52,7 @@ export default function EarthquakeData() {
 
   useEffect(() => {
     const fetchStation = async () => {
-      const ans = await fetch(`https://raw.githubusercontent.com/ExpTechTW/API/master/resource/station.json`);
+      const ans = await fetch(`https://api-1.exptech.dev/api/v1/trem/station`);
       const res = await ans.json() as EarthquakeInfo;
 
       console.log(res);
