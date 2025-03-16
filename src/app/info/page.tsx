@@ -1,7 +1,7 @@
-import EarthquakeInfoData from '@/components/earthquake-info-data';
+import EarthquakeData from '@/components/earthquake-data-table';
 
 export default function InfoPage() {
   return (
-    <EarthquakeInfoData />
+    <EarthquakeData />
   );
 }

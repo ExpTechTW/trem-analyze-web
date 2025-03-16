@@ -1,8 +1,11 @@
 'use client';
 import { Undo2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 import { Progress } from '@/components/ui/progress';
+import { EarthquakeInfo } from '@/modal/earthquake-info';
+import { Region } from '@/modal/region';
 
 import {
   Table,
@@ -13,16 +16,66 @@ import {
   TableRow,
 } from './ui/table';
 
-export default function EarthquakeInfoData() {
+export default function EarthquakeData() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const openNewWindow = () => {
     void router.push(`./`);
   };
 
+  useEffect(() => {
+    const id = searchParams.get('id');
+
+    if (!id) return;
+
+    const fetchEarthquakeData = async () => {
+      const ans = await fetch(`https://api-1.exptech.dev/api/v1/trem/list/${id}?key=`);
+      const res = await ans.json() as EarthquakeInfo;
+
+      console.log(res);
+    };
+
+    void fetchEarthquakeData();
+  }, []);
+
+  useEffect(() => {
+    const fetchRegion = async () => {
+      const ans = await fetch(`https://raw.githubusercontent.com/ExpTechTW/API/master/resource/region.json`);
+      const res = await ans.json() as Region;
+
+      console.log(res);
+    };
+
+    void fetchRegion();
+  }, []);
+
+  useEffect(() => {
+    const fetchStation = async () => {
+      const ans = await fetch(`https://raw.githubusercontent.com/ExpTechTW/API/master/resource/station.json`);
+      const res = await ans.json() as EarthquakeInfo;
+
+      console.log(res);
+    };
+
+    void fetchStation();
+  }, []);
+
+  useEffect(() => {
+
+  }, []);
+
+  useEffect(() => {
+
+  }, []);
+
+  useEffect(() => {
+
+  }, []);
+
   return (
     <div>
-      <div className="flex items-center justify-start p-1" onClick={() => openNewWindow()}>
+      <div className="flex items-center justify-start pt-2 pl-2" onClick={() => openNewWindow()}>
         <div className={`
           flex items-center space-x-2 rounded-md bg-sky-400 px-3 py-1.5
           shadow-sm transition
@@ -35,7 +88,7 @@ export default function EarthquakeInfoData() {
           >
             <Undo2 className="h-4 w-4 text-blue-700" />
           </div>
-          <a className="text-base font-medium text-white">返回主頁</a>
+          <a className="text-base font-medium text-white">返回首頁</a>
         </div>
       </div>
 
