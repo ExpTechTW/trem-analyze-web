@@ -22,7 +22,7 @@ export default function EarthquakeInfoTable() {
   const router = useRouter();
 
   const openNewWindow = (id: string) => {
-    void router.push(`/info?id=${id}`);
+    void router.push(`/info?id=${id}${searchParams.get('dev') ? '&dev=1' : ''}`);
   };
 
   useEffect(() => {
