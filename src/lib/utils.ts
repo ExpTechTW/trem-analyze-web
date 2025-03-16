@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+import { Region } from '@/modal/region';
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -18,3 +20,16 @@ export function formatTime(timestamp: number) {
 }
 
 export const intensity_list = ['0', '1', '2', '3', '4', '5弱', '5強', '6弱', '6強', '7'];
+
+export function findLocationByCode(region: Region, code: number): string {
+  for (const cityName in region) {
+    const city = region[cityName];
+    for (const districtName in city) {
+      const town = city[districtName];
+      if (town.code == code) {
+        return `${cityName} ${districtName}`;
+      }
+    }
+  }
+  return '未知區域';
+}

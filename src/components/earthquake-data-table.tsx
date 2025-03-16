@@ -8,7 +8,7 @@ import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 import { StationList, StationReport } from '@/modal/station';
 import { TremEew } from '@/modal/trem';
-import { formatTime } from '@/lib/utils';
+import { findLocationByCode, formatTime, intensity_list } from '@/lib/utils';
 
 import {
   Table,
@@ -270,7 +270,7 @@ export default function EarthquakeData() {
                       <TableCell className="border border-gray-300 text-center">{data.eq.lon}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.eq.depth}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.eq.mag.toFixed(1)}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.eq.max}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{intensity_list[data.eq.max]}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.rts ? 'TRUE' : ''}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.detail ? 'EEW' : 'NSSPE'}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.reason}</TableCell>
@@ -457,12 +457,14 @@ export default function EarthquakeData() {
               </TableHead>
             </TableRow>
           </TableHeader>
-          {stationReport && station
+          {stationReport && station && region
             ? (
                 <TableBody>
-                  {stationReport.map((data, index) => (
+                  {Object.entries(station).map(([id, data], index) => (
                     <TableRow key={index}>
-                      <TableCell className="border border-gray-300 text-center">{index + 1}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{id}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.net}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{findLocationByCode(region, data.info.at(-1)?.code ?? 0)}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
