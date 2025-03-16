@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
-import { findPageNext, findPageNumber, findPagePrevious, formatTime, getIntensityClass, getLpgmClass, intensity_list, pagesEarthquakeQuantity } from '@/lib/utils';
+import { findPageNext, findPageNumber, findPagePrevious, formatTime, getIntensityClass, getLpgmClass, intensity_list, mathPageDataLength, pagesEarthquakeQuantity } from '@/lib/utils';
 
 import {
   Pagination,
@@ -22,6 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from './ui/table';
+import { Checkbox } from './ui/checkbox';
 
 export default function EarthquakeInfoTable() {
   const [earthquakeInfo, setEarthquakeInfo] = useState<Array<EarthquakeInfo>>([]);
@@ -45,6 +46,14 @@ export default function EarthquakeInfoTable() {
   const numberPage = (id: number) => {
     void router.push(`?page=${id}${searchParams.get('dev') ? '&dev=1' : ''}`);
   };
+
+  const pageNumbers = findPageNumber(
+    Number(searchParams.get('page')),
+    earthquakeInfo,
+    Boolean(searchParams.get('dev')),
+  );
+
+  const pageMax = Math.ceil(mathPageDataLength(earthquakeInfo, Boolean(searchParams.get('dev'))) / 10);
 
   useEffect(() => {
     const fetchEarthquakeReport = async () => {
@@ -71,6 +80,20 @@ export default function EarthquakeInfoTable() {
     <div>
       <div className="p-4 text-center text-3xl font-bold">
         TREM EEW
+      </div>
+      <div className="p-4 text-center text-3xl font-bold">
+        <Checkbox id="terms1" />
+        <div className="grid gap-1.5 leading-none">
+          <label
+            htmlFor="terms1"
+            className={`
+              text-sm leading-none font-medium
+              peer-disabled:cursor-not-allowed peer-disabled:opacity-70
+            `}
+          >
+            Dev MOD
+          </label>
+        </div>
       </div>
       <div className="pr-8 pl-8">
         <Table className="w-full border-collapse border border-gray-500">
@@ -225,13 +248,16 @@ export default function EarthquakeInfoTable() {
             <PaginationItem>
               <PaginationPrevious onClick={() => previousPage()} />
             </PaginationItem>
+            <PaginationItem>
+              {pageNumbers[0] !== 1 && <PaginationEllipsis />}
+            </PaginationItem>
             {findPageNumber(Number(searchParams.get('page')), earthquakeInfo, Boolean(searchParams.get('dev'))).map((pageNumber: number, index: number) => (
               <PaginationItem key={index}>
                 <PaginationLink onClick={() => numberPage(pageNumber)}>{pageNumber}</PaginationLink>
               </PaginationItem>
             ))}
             <PaginationItem>
-              <PaginationEllipsis />
+              {((Number(searchParams.get('page')) <= pageNumbers[pageNumbers.length - 1] - 2) && (pageNumbers[pageNumbers.length - 1] != pageMax)) && <PaginationEllipsis />}
             </PaginationItem>
             <PaginationItem>
               <PaginationNext onClick={() => nextPage()} />

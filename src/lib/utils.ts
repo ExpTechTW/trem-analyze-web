@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { EarthquakeInfo } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 
-function mathPageDataLength(data: Array<EarthquakeInfo>, dev: boolean) {
+export function mathPageDataLength(data: Array<EarthquakeInfo>, dev: boolean) {
   return dev ? data.length : data.reduce((count, item) => count + (item.Alarm ? 1 : 0), 0);
 }
 
