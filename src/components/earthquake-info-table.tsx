@@ -35,7 +35,7 @@ export default function EarthquakeInfoTable() {
   };
 
   const nextPage = () => {
-    void router.push(`?page=${findPageNext(Number(searchParams.get('page')), earthquakeInfo)}${searchParams.get('dev') ? '&dev=1' : ''}`);
+    void router.push(`?page=${findPageNext(Number(searchParams.get('page')), earthquakeInfo, Boolean(searchParams.get('dev')))}${searchParams.get('dev') ? '&dev=1' : ''}`);
   };
 
   const previousPage = () => {
@@ -168,7 +168,7 @@ export default function EarthquakeInfoTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {pagesEarthquakeQuantity(Number(searchParams.get('page')), earthquakeInfo).map((data, index) => (
+            {pagesEarthquakeQuantity(Number(searchParams.get('page')), earthquakeInfo, Boolean(searchParams.get('dev'))).map((data, index) => (
               <TableRow key={data.ID}>
                 <TableCell className="border border-gray-300 text-center">{index + 1}</TableCell>
                 <TableCell
@@ -225,7 +225,7 @@ export default function EarthquakeInfoTable() {
             <PaginationItem>
               <PaginationPrevious onClick={() => previousPage()} />
             </PaginationItem>
-            {findPageNumber(Number(searchParams.get('page')), earthquakeInfo).map((pageNumber: number, index: number) => (
+            {findPageNumber(Number(searchParams.get('page')), earthquakeInfo, Boolean(searchParams.get('dev'))).map((pageNumber: number, index: number) => (
               <PaginationItem key={index}>
                 <PaginationLink onClick={() => numberPage(pageNumber)}>{pageNumber}</PaginationLink>
               </PaginationItem>

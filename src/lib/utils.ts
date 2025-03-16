@@ -4,6 +4,15 @@ import { twMerge } from 'tailwind-merge';
 import { EarthquakeInfo } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 
+function mathPageDataLength(data: Array<EarthquakeInfo>, dev: boolean) {
+  return dev ? data.length : data.reduce((count, item) => count + (item.Alarm ? 1 : 0), 0);
+}
+
+export function findDataAlarm(data: Array<EarthquakeInfo>, dev: boolean): Array<EarthquakeInfo> {
+  if (dev) return data;
+  return data.filter((item) => item.Alarm);
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -47,34 +56,52 @@ export function getLpgmClass(intensity: number) {
   return `lpgm-${intensity}`;
 }
 
-export function pagesEarthquakeQuantity(page: number | null, data: EarthquakeInfo[]) {
-  // TODO: dev沒用
+export function pagesEarthquakeQuantity(page: number | null, data: EarthquakeInfo[], dev: boolean) {
   const arrayData: EarthquakeInfo[] = [];
 
   if (data.length === 0) return [];
 
   page = page ?? 1;
 
-  const maxPage = Math.ceil(data.length / 10);
+  const maxPage = Math.ceil(mathPageDataLength(data, dev) / 10);
 
   page = Math.min(page, maxPage);
+  const startIndex = ((page - 1) < 0 ? 1 : (page - 1)) * 10;
 
-  const startIndex = (page - 1) * 10;
-  const endIndex = startIndex + 10;
-
-  for (let i = startIndex; i < endIndex; i++) {
-    arrayData.push(data[i]);
+  if (!dev) {
+    const _data = findDataAlarm(data, dev);
+    console.log(_data);
+    for (let i = 0, j = 10; i < j; i++) {
+      if (!_data[i + startIndex].Alarm && !dev) {
+        j++;
+        continue;
+      }
+      if (_data.length < i + startIndex) {
+        return;
+      }
+      arrayData.push(_data[i + startIndex]);
+    }
   }
-
+  else {
+    for (let i = 0, j = 10; i < j; i++) {
+      if (!data[i + startIndex].Alarm && !dev) {
+        j++;
+        continue;
+      }
+      arrayData.push(data[i + startIndex]);
+    }
+  }
   return arrayData;
 };
 
-export function findPageNumber(page: number | null, data: Array<EarthquakeInfo>): number[] {
+export function findPageNumber(page: number | null, data: Array<EarthquakeInfo>, dev: boolean): number[] {
   // HACK: 10占用
   // XXX
   page = page ?? 1;
 
-  const maxPage = Math.ceil(data.length / 10);
+  const nu = dev ? data.length : data.reduce((count, item) => count + (item.Alarm ? 1 : 0), 0);
+
+  const maxPage = Math.ceil(nu / 10);
   page = Math.min(page, maxPage);
 
   if (maxPage <= 5 || page <= 3) {
@@ -86,14 +113,15 @@ export function findPageNumber(page: number | null, data: Array<EarthquakeInfo>)
   }
 
   return [page - 2, page - 1, page, page + 1, page + 2];
-};
+}
 
 export function findPagePrevious(page: number) {
   return page - 1 <= 0 ? 1 : page - 1;
 }
 
-export function findPageNext(page: number, data: Array<EarthquakeInfo>) {
+export function findPageNext(page: number, data: Array<EarthquakeInfo>, dev: boolean) {
   // HACK: 10占用
-  const maxPage = Math.ceil(data.length / 10);
+  const maxPage = Math.ceil(mathPageDataLength(data, dev) / 10);
+  console.log(mathPageDataLength(data, dev));
   return page + 1 > maxPage ? maxPage : page + 1;
 }
