@@ -84,15 +84,12 @@ export default function EarthquakeData() {
     };
 
     const fetchEarthquakeTremList = async () => {
-      console.log(earthquakeInfo.List);
       const ans = await fetch('https://api-1.exptech.dev/api/v1/trem/info', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ list: JSON.parse(earthquakeInfo.List) as object }),
       });
       const res = await ans.json() as Array<StationReport>;
-
-      console.log(res);
 
       setStationReport(res);
     };
@@ -265,21 +262,41 @@ export default function EarthquakeData() {
               </TableHead>
             </TableRow>
           </TableHeader>
-          {tremEew && earthquakeReport
-            ? (
-                <TableBody>
-                  {tremEew.map((data, index) => (
+          <TableBody>
+            {tremEew && earthquakeReport
+              ? (
+                  tremEew.map((data, index) => (
                     <TableRow key={index}>
-                      <TableCell className="border border-gray-300 text-center">{index + 1}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{formatTime(data.time)}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{Math.round((data.time - tremEew[0].time) / 1000)}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{Math.round((data.time - earthquakeReport.time) / 1000)}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{formatTime(data.eq.time)}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.eq.loc}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.eq.lat}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.eq.lon}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.eq.depth}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.eq.mag.toFixed(1)}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {formatTime(data.time)}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {Math.round((data.time - tremEew[0].time) / 1000)}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {earthquakeReport.time ? Math.round((data.time - earthquakeReport.time) / 1000) : ''}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {formatTime(data.eq.time)}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {data.eq.loc}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {data.eq.lat}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {data.eq.lon}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {data.eq.depth}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {data.eq.mag.toFixed(1)}
+                      </TableCell>
                       <TableCell className={`
                         border border-gray-300 text-center
                         ${getIntensityClass(data.eq.max)}
@@ -287,23 +304,33 @@ export default function EarthquakeData() {
                       >
                         {intensity_list[data.eq.max]}
                       </TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.rts ? 'TRUE' : ''}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.detail ? 'EEW' : 'NSSPE'}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.reason}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.trigger}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{0}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.status == 2 ? 'TRUE' : ''}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {data.rts ? 'TRUE' : ''}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {data.detail ? 'EEW' : 'NSSPE'}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {data.reason}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {data.trigger}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {0}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        {data.status == 2 ? 'TRUE' : ''}
+                      </TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              )
-            : (
-                <TableBody>
+                  ))
+                )
+              : (
                   <TableRow>
                     <TableCell colSpan={17} className="text-center">無資料</TableCell>
                   </TableRow>
-                </TableBody>
-              )}
+                )}
+          </TableBody>
         </Table>
       </div>
       <div className="mx-8 my-5">
@@ -467,10 +494,10 @@ export default function EarthquakeData() {
               </TableHead>
             </TableRow>
           </TableHeader>
-          {stationReport && station && region
-            ? (
-                <TableBody>
-                  {stationReport.map((data, index) => (
+          <TableBody>
+            {stationReport && station && region
+              ? (
+                  stationReport.map((data, index) => (
                     <TableRow key={index}>
                       <TableCell className="border border-gray-300 text-center">{data.id}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{getStationInfoById(data.id.toString())?.net}</TableCell>
@@ -497,16 +524,14 @@ export default function EarthquakeData() {
                       <TableCell className="border border-gray-300 text-center">{data.end}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{0}</TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              )
-            : (
-                <TableBody>
+                  ))
+                )
+              : (
                   <TableRow>
                     <TableCell colSpan={18} className="text-center">無資料</TableCell>
                   </TableRow>
-                </TableBody>
-              )}
+                )}
+          </TableBody>
           <TableCaption>Taiwan Real-time Earthquake Monitoring｜2025｜ExpTech Studio</TableCaption>
         </Table>
       </div>
