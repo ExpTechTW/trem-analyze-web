@@ -101,9 +101,9 @@ export default ts.config(
       "@typescript-eslint/no-floating-promises": "off",
       "no-undef": "off",
 
-      "semi": ["error", "always"],     
-      "quotes": ["error", "single"],    
-      "indent": ["error", 2],           
+      "semi": ["error", "always"],
+      "quotes": ["error", "single"],
+      "indent": ["error", 2],
 
       "no-trailing-spaces": "error",
       "no-multiple-empty-lines": ["error", { "max": 1 }],
