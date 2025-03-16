@@ -8,7 +8,7 @@ import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 import { StationList, StationReport } from '@/modal/station';
 import { TremEew } from '@/modal/trem';
-import { findLocationByCode, formatTime, getIntensityClass, intensity_float_to_int, intensity_list } from '@/lib/utils';
+import { findLocationByCode, formatTime, getIntensityClass, getLpgmClass, intensity_float_to_int, intensity_list } from '@/lib/utils';
 
 import {
   Table,
@@ -519,7 +519,13 @@ export default function EarthquakeData() {
                         {intensity_list[intensity_float_to_int(data.i)]}
                       </TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.sva}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.lpgm}</TableCell>
+                      <TableCell className={`
+                        border border-gray-300 text-center
+                        ${getLpgmClass(data.lpgm)}
+                      `}
+                      >
+                        {data.lpgm}
+                      </TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.start}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.end}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{0}</TableCell>

@@ -41,3 +41,7 @@ export function intensity_float_to_int(i: number) {
 export function getIntensityClass(intensity: number) {
   return `intensity-${intensity}`;
 }
+
+export function getLpgmClass(intensity: number) {
+  return `lpgm-${intensity}`;
+}

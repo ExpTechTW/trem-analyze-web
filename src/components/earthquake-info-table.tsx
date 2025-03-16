@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
-import { formatTime, getIntensityClass, intensity_list } from '@/lib/utils';
+import { formatTime, getIntensityClass, getLpgmClass, intensity_list } from '@/lib/utils';
 
 import {
   Table,
@@ -186,7 +186,13 @@ export default function EarthquakeInfoTable() {
                 >
                   {data.Cwa_id ? intensity_list[findCwaEarthquake(data.Cwa_id)?.int ?? 0] : ''}
                 </TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.Lpgm}</TableCell>
+                <TableCell className={`
+                  border border-gray-300 text-center
+                  ${getLpgmClass(data.Lpgm)}
+                `}
+                >
+                  {data.Lpgm}
+                </TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Alarm ? 'TRUE' : ''}</TableCell>
               </TableRow>
             ))}
