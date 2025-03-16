@@ -47,6 +47,11 @@ export default function EarthquakeInfoTable() {
     void router.push(`?page=${id}${searchParams.get('dev') ? '&dev=1' : ''}`);
   };
 
+  const devModButton = () => {
+    const dev = searchParams.get('dev') ? false : true;
+    void router.push(`?page=${Number(searchParams.get('page'))}${dev ? '&dev=1' : ''}`);
+  };
+
   const pageNumbers = findPageNumber(
     Number(searchParams.get('page')),
     earthquakeInfo,
@@ -81,19 +86,9 @@ export default function EarthquakeInfoTable() {
       <div className="p-4 text-center text-3xl font-bold">
         TREM EEW
       </div>
-      <div className="p-4 text-center text-3xl font-bold">
-        <Checkbox id="terms1" />
-        <div className="grid gap-1.5 leading-none">
-          <label
-            htmlFor="terms1"
-            className={`
-              text-sm leading-none font-medium
-              peer-disabled:cursor-not-allowed peer-disabled:opacity-70
-            `}
-          >
-            Dev MOD
-          </label>
-        </div>
+      <div className="py-2 text-center font-bold">
+        <Checkbox id="devBotton" onClick={() => devModButton()} />
+        <label htmlFor="devBotton">Dev MOD</label>
       </div>
       <div className="pr-8 pl-8">
         <Table className="w-full border-collapse border border-gray-500">
