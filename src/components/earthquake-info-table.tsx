@@ -2,8 +2,17 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
-import { formatTime, getIntensityClass, getLpgmClass, intensity_list } from '@/lib/utils';
+import { findPageNext, findPageNumber, findPagePrevious, formatTime, getIntensityClass, getLpgmClass, intensity_list } from '@/lib/utils';
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from './ui/pagination';
 import {
   Table,
   TableBody,
@@ -23,6 +32,18 @@ export default function EarthquakeInfoTable() {
 
   const openNewWindow = (id: string) => {
     void router.push(`/info?id=${id}${searchParams.get('dev') ? '&dev=1' : ''}`);
+  };
+
+  const nextPage = () => {
+    void router.push(`?page=${findPageNext(Number(searchParams.get('page')) || 1, earthquakeReport)}${searchParams.get('dev') ? '&dev=1' : ''}`);
+  };
+
+  const previousPage = () => {
+    void router.push(`?page=${findPagePrevious(Number(searchParams.get('page')) || 1)}${searchParams.get('dev') ? '&dev=1' : ''}`);
+  };
+
+  const numberPage = (id: number) => {
+    void router.push(`?page=${id}${searchParams.get('dev') ? '&dev=1' : ''}`);
   };
 
   useEffect(() => {
@@ -46,7 +67,6 @@ export default function EarthquakeInfoTable() {
   const findCwaEarthquake = (id: string) => {
     return earthquakeReport.find((data) => data.id == id);
   };
-
   return (
     <div>
       <div className="p-4 text-center text-3xl font-bold">
@@ -197,8 +217,27 @@ export default function EarthquakeInfoTable() {
               </TableRow>
             ))}
           </TableBody>
-          <TableCaption>Taiwan Real-time Earthquake Monitoring｜2025｜ExpTech Studio</TableCaption>
+          <TableCaption className="pb-4">Taiwan Real-time Earthquake Monitoring｜2025｜ExpTech Studio</TableCaption>
         </Table>
+
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious onClick={() => previousPage()} />
+            </PaginationItem>
+            {findPageNumber(null, earthquakeReport).map((pageNumber: number, index: number) => (
+              <PaginationItem key={index}>
+                <PaginationLink onClick={() => numberPage(pageNumber)}>{pageNumber}</PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext onClick={() => nextPage()} />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );
