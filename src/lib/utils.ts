@@ -70,7 +70,8 @@ export function pagesEarthquakeQuantity(page: number | null, data: EarthquakeInf
 };
 
 export function findPageNumber(page: number | null, data: Array<EarthquakeInfo>): number[] {
-  // HXXXACK: 10占用
+  // HACK: 10占用
+  // XXX
   page = page ?? 1;
 
   const maxPage = Math.ceil(data.length / 10);
@@ -80,14 +81,15 @@ export function findPageNumber(page: number | null, data: Array<EarthquakeInfo>)
     return [1, 2, 3, 4, 5];
   }
 
-  const start = page - 2;
-  const end = page + 2;
+  if (maxPage == page) {
+    return [page - 2, page - 1, page];
+  }
 
-  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+  return [page - 2, page - 1, page, page + 1, page + 2];
 };
 
 export function findPagePrevious(page: number) {
-  return page - 1 > -1 ? 1 : page - 1;
+  return page - 1 <= 0 ? 1 : page - 1;
 }
 
 export function findPageNext(page: number, data: Array<EarthquakeInfo>) {

@@ -225,7 +225,7 @@ export default function EarthquakeInfoTable() {
             <PaginationItem>
               <PaginationPrevious onClick={() => previousPage()} />
             </PaginationItem>
-            {findPageNumber(null, earthquakeInfo).map((pageNumber: number, index: number) => (
+            {findPageNumber(Number(searchParams.get('page')), earthquakeInfo).map((pageNumber: number, index: number) => (
               <PaginationItem key={index}>
                 <PaginationLink onClick={() => numberPage(pageNumber)}>{pageNumber}</PaginationLink>
               </PaginationItem>
