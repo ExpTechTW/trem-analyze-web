@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import { EarthquakeReport } from '@/modal/earthquake-info';
+import { EarthquakeReport } from '@/modal/earthquake';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

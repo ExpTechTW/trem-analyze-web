@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { EarthquakeData, EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake-info';
+import { EarthquakeData, EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { formatTime, searchEq } from '@/lib/utils';
 
 import {

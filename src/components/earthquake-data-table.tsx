@@ -1,11 +1,13 @@
 'use client';
 import { Undo2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Progress } from '@/components/ui/progress';
-import { EarthquakeInfo } from '@/modal/earthquake-info';
+import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
+import { StationList, StationReport } from '@/modal/station';
+import { TremEew } from '@/modal/trem';
 
 import {
   Table,
@@ -17,6 +19,12 @@ import {
 } from './ui/table';
 
 export default function EarthquakeData() {
+  const [earthquakeInfo, setEarthquakeInfo] = useState<EarthquakeInfo>();
+  const [earthquakeReport, setEarthquakeReport] = useState<EarthquakeReport>();
+  const [region, setRegion] = useState<Region>();
+  const [station, setStation] = useState<StationList>();
+  const [tremEew, setTremEew] = useState<Array<TremEew>>();
+  const [stationReport, setStationReport] = useState<StationReport>();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -33,45 +41,61 @@ export default function EarthquakeData() {
       const ans = await fetch(`https://api-1.exptech.dev/api/v1/trem/list/${id}?key=`);
       const res = await ans.json() as EarthquakeInfo;
 
-      console.log(res);
+      setEarthquakeInfo(res);
     };
 
-    void fetchEarthquakeData();
-  }, []);
+    const fetchEarthquakeTremEew = async () => {
+      const ans = await fetch(`https://api-1.exptech.dev/api/v1/trem/report/${id}`);
+      const res = await ans.json() as Array<TremEew>;
 
-  useEffect(() => {
+      setTremEew(res);
+    };
+
     const fetchRegion = async () => {
       const ans = await fetch(`https://raw.githack.com/ExpTechTW/API/master/resource/region.json`);
       const res = await ans.json() as Region;
 
-      console.log(res);
+      setRegion(res);
     };
 
-    void fetchRegion();
-  }, []);
-
-  useEffect(() => {
     const fetchStation = async () => {
       const ans = await fetch(`https://api-1.exptech.dev/api/v1/trem/station`);
-      const res = await ans.json() as EarthquakeInfo;
+      const res = await ans.json() as StationList;
 
-      console.log(res);
+      setStation(res);
     };
 
+    void fetchEarthquakeTremEew();
+    void fetchEarthquakeData();
+    void fetchRegion();
     void fetchStation();
   }, []);
 
   useEffect(() => {
+    if (!earthquakeInfo) return;
 
-  }, []);
+    const fetchEarthquakeReport = async () => {
+      const ans = await fetch(`https://api-1.exptech.dev/api/v2/eq/report/${earthquakeInfo.Cwa_id}?key=`);
+      const res = await ans.json() as EarthquakeReport;
 
-  useEffect(() => {
+      setEarthquakeReport(res);
+    };
 
-  }, []);
+    const fetchEarthquakeTremList = async () => {
+      console.log(earthquakeInfo.List);
+      const ans = await fetch('https://api-1.exptech.dev/api/v1/trem/info', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ list: JSON.parse(earthquakeInfo.List) as object }),
+      });
+      const res = await ans.json() as StationReport;
 
-  useEffect(() => {
+      setStationReport(res);
+    };
 
-  }, []);
+    void fetchEarthquakeTremList();
+    void fetchEarthquakeReport();
+  }, [earthquakeInfo]);
 
   return (
     <div>
