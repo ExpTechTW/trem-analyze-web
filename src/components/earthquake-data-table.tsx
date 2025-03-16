@@ -31,7 +31,7 @@ export default function EarthquakeData() {
   const searchParams = useSearchParams();
 
   const openNewWindow = () => {
-    void router.push(`./`);
+    void router.push(`./${searchParams.get('dev') ? '?dev=true' : ''}`);
   };
 
   useEffect(() => {
