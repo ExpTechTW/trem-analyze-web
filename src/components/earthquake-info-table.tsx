@@ -151,7 +151,13 @@ export default function EarthquakeInfoTable() {
             {earthquakeInfo.filter((data) => searchParams.get('dev') || data.Alarm).map((data, index) => (
               <TableRow key={data.ID}>
                 <TableCell className="border border-gray-300 text-center">{index + 1}</TableCell>
-                <TableCell className="border border-gray-300 text-center" onClick={() => openNewWindow(data.ID)}>
+                <TableCell
+                  className={`
+                    cursor-pointer border border-gray-300 text-center
+                    text-blue-700 underline
+                  `}
+                  onClick={() => openNewWindow(data.ID)}
+                >
                   {formatTime(Number(data.ID))
                     .replaceAll('/', '')
                     .replaceAll(':', '')
