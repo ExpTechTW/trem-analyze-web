@@ -78,52 +78,98 @@ export default function EarthquakeInfoTable() {
         TREM EEW
       </div>
       <div className="pr-8 pl-8">
-        <Table className="w-full border-collapse border border-gray-300">
+        <Table className="w-full border-collapse border border-gray-500">
           <TableHeader>
-            <TableRow>
+            <TableRow className="bg-gray-300">
               <TableHead
                 rowSpan={2}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 No.
               </TableHead>
               <TableHead
                 rowSpan={2}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 EventID
               </TableHead>
               <TableHead
                 rowSpan={2}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 發表單位
               </TableHead>
               <TableHead
                 colSpan={12}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 震源・EEW資訊
               </TableHead>
             </TableRow>
 
-            <TableRow>
-              <TableHead className="border border-gray-300 text-center">報數</TableHead>
-              <TableHead className="border border-gray-300 text-center">檢知時刻</TableHead>
-              <TableHead className="border border-gray-300 text-center">發震時刻(CWA)</TableHead>
-              <TableHead className="border border-gray-300 text-center">震央地名</TableHead>
-              <TableHead className="border border-gray-300 text-center">北緯</TableHead>
-              <TableHead className="border border-gray-300 text-center">東經</TableHead>
-              <TableHead className="border border-gray-300 text-center">深度</TableHead>
-              <TableHead className="border border-gray-300 text-center">規模</TableHead>
-              <TableHead className="border border-gray-300 text-center">預估最大震度</TableHead>
-              <TableHead className="border border-gray-300 text-center">實測最大震度(CWA)</TableHead>
-              <TableHead className="border border-gray-300 text-center">
+            <TableRow className="bg-gray-300">
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                報數
+              </TableHead>
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                檢知時刻
+              </TableHead>
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                發震時刻(CWA)
+              </TableHead>
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                震央地名
+              </TableHead>
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                北緯
+              </TableHead>
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                東經
+              </TableHead>
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                深度
+              </TableHead>
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                規模
+              </TableHead>
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                預估最大震度
+              </TableHead>
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                實測最大震度(CWA)
+              </TableHead>
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
                 實測最大長周期
                 <br />
                 地震動階級
               </TableHead>
-              <TableHead className="border border-gray-300 text-center">RTS</TableHead>
+              <TableHead
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                RTS
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

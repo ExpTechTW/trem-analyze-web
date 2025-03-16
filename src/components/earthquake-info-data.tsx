@@ -12,16 +12,16 @@ import {
 export default function EarthquakeInfoData() {
   return (
     <div>
-      <div className="text-l flex justify-around px-160 py-8 text-center">
-        <div>
+      <div className="text-l flex justify-center divide-x-1 py-8 text-center">
+        <div className="px-8">
           <p className="font-bold">EventID</p>
           <p>測試</p>
         </div>
-        <div>
+        <div className="px-8">
           <p className="font-bold">發表單位</p>
           <p>測試</p>
         </div>
-        <div>
+        <div className="px-8">
           <p className="font-bold">檢知時刻</p>
           <p>測試</p>
         </div>
@@ -35,53 +35,118 @@ export default function EarthquakeInfoData() {
       <div className="pr-8 pb-8 pl-8">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
-            <TableRow>
+            <TableRow className="bg-gray-300">
               <TableHead
                 rowSpan={2}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 No.
               </TableHead>
               <TableHead
                 rowSpan={2}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 發表時刻
               </TableHead>
               <TableHead
                 rowSpan={2}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 檢知經過秒數
               </TableHead>
               <TableHead
                 rowSpan={2}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 震後秒數
               </TableHead>
               <TableHead
                 colSpan={13}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 震源・EEW資訊
               </TableHead>
             </TableRow>
 
-            <TableRow>
-              <TableHead className="border border-gray-300 text-center">發生時刻</TableHead>
-              <TableHead className="border border-gray-300 text-center">震央地名</TableHead>
-              <TableHead className="border border-gray-300 text-center">北緯</TableHead>
-              <TableHead className="border border-gray-300 text-center">東經</TableHead>
-              <TableHead className="border border-gray-300 text-center">深度</TableHead>
-              <TableHead className="border border-gray-300 text-center">規模</TableHead>
-              <TableHead className="border border-gray-300 text-center">預估最大震度</TableHead>
-              <TableHead className="border border-gray-300 text-center">RTS</TableHead>
-              <TableHead className="border border-gray-300 text-center">方法</TableHead>
-              <TableHead className="border border-gray-300 text-center">原因</TableHead>
-              <TableHead className="border border-gray-300 text-center">觸發</TableHead>
-              <TableHead className="border border-gray-300 text-center">誤差△(km)</TableHead>
-              <TableHead className="border border-gray-300 text-center">警報狀態</TableHead>
+            <TableRow className="bg-gray-300">
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                發生時刻
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                震央地名
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                北緯
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                東經
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                深度
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                規模
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                預估最大震度
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                RTS
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                方法
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                原因
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                觸發
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                誤差△(km)
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                警報狀態
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -97,87 +162,162 @@ export default function EarthquakeInfoData() {
       <div className="pr-8 pb-8 pl-8">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
-            <TableRow>
+            <TableRow className="bg-gray-300">
               <TableHead
                 rowSpan={3}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 ID
               </TableHead>
               <TableHead
                 rowSpan={3}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 Net
               </TableHead>
               <TableHead
                 rowSpan={3}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 地名
               </TableHead>
               <TableHead
                 rowSpan={3}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 震後秒數
               </TableHead>
               <TableHead
                 colSpan={17}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 數據分析
               </TableHead>
             </TableRow>
 
-            <TableRow>
+            <TableRow className="bg-gray-300">
               <TableHead
                 colSpan={3}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 加速度
               </TableHead>
               <TableHead
                 colSpan={3}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 速度
               </TableHead>
               <TableHead
                 colSpan={6}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 最大值
               </TableHead>
               <TableHead
                 colSpan={2}
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 時間
               </TableHead>
               <TableHead
-                className="border border-gray-300 text-center"
+                className="text-l border border-gray-500 text-center font-bold"
               >
                 檔案
               </TableHead>
             </TableRow>
 
-            <TableRow>
-              <TableHead className="border border-gray-300 text-center">加速度EW</TableHead>
-              <TableHead className="border border-gray-300 text-center">加速度NS</TableHead>
-              <TableHead className="border border-gray-300 text-center">加速度UD</TableHead>
-              <TableHead className="border border-gray-300 text-center">速度EW</TableHead>
-              <TableHead className="border border-gray-300 text-center">速度NS</TableHead>
-              <TableHead className="border border-gray-300 text-center">速度UD</TableHead>
-              <TableHead className="border border-gray-300 text-center">PGA</TableHead>
-              <TableHead className="border border-gray-300 text-center">PGV</TableHead>
-              <TableHead className="border border-gray-300 text-center">最大計測震度</TableHead>
-              <TableHead className="border border-gray-300 text-center">最大震度階</TableHead>
-              <TableHead className="border border-gray-300 text-center">SVA</TableHead>
-              <TableHead className="border border-gray-300 text-center">LPGM</TableHead>
-              <TableHead className="border border-gray-300 text-center">開始時間</TableHead>
-              <TableHead className="border border-gray-300 text-center">結束時間</TableHead>
-              <TableHead className="border border-gray-300 text-center">Zip</TableHead>
+            <TableRow className="bg-gray-300">
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                加速度EW
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                加速度NS
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                加速度UD
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                速度EW
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                速度NS
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                速度UD
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                PGA
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                PGV
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                最大計測震度
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                最大震度階
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                SVA
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                LPGM
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                開始時間
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                結束時間
+              </TableHead>
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
+              >
+                Zip
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
