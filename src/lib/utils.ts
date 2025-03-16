@@ -33,3 +33,11 @@ export function findLocationByCode(region: Region, code: number): string {
   }
   return '未知區域';
 }
+
+export function intensity_float_to_int(i: number) {
+  return i < 0 ? 0 : i < 4.5 ? Math.round(i) : i < 5 ? 5 : i < 5.5 ? 6 : i < 6 ? 7 : i < 6.5 ? 8 : 9;
+}
+
+export function getIntensityClass(intensity: number) {
+  return `intensity-${intensity}`;
+}

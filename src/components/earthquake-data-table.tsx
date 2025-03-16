@@ -8,7 +8,7 @@ import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 import { StationList, StationReport } from '@/modal/station';
 import { TremEew } from '@/modal/trem';
-import { findLocationByCode, formatTime, intensity_list } from '@/lib/utils';
+import { findLocationByCode, formatTime, getIntensityClass, intensity_float_to_int, intensity_list } from '@/lib/utils';
 
 import {
   Table,
@@ -26,7 +26,7 @@ export default function EarthquakeData() {
   const [region, setRegion] = useState<Region>();
   const [station, setStation] = useState<StationList>();
   const [tremEew, setTremEew] = useState<Array<TremEew>>();
-  const [stationReport, setStationReport] = useState<StationReport>();
+  const [stationReport, setStationReport] = useState<Array<StationReport>>();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -90,7 +90,9 @@ export default function EarthquakeData() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ list: JSON.parse(earthquakeInfo.List) as object }),
       });
-      const res = await ans.json() as StationReport;
+      const res = await ans.json() as Array<StationReport>;
+
+      console.log(res);
 
       setStationReport(res);
     };
@@ -98,6 +100,14 @@ export default function EarthquakeData() {
     void fetchEarthquakeTremList();
     void fetchEarthquakeReport();
   }, [earthquakeInfo]);
+
+  const getStationInfoById = (id: string) => {
+    if (!station) return null;
+    for (const _id of Object.keys(station)) {
+      if (_id == id) return station[id];
+    }
+    return null;
+  };
 
   return (
     <div>
@@ -270,7 +280,13 @@ export default function EarthquakeData() {
                       <TableCell className="border border-gray-300 text-center">{data.eq.lon}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.eq.depth}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.eq.mag.toFixed(1)}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{intensity_list[data.eq.max]}</TableCell>
+                      <TableCell className={`
+                        border border-gray-300 text-center
+                        ${getIntensityClass(data.eq.max)}
+                      `}
+                      >
+                        {intensity_list[data.eq.max]}
+                      </TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.rts ? 'TRUE' : ''}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.detail ? 'EEW' : 'NSSPE'}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.reason}</TableCell>
@@ -319,16 +335,10 @@ export default function EarthquakeData() {
                 地名
               </TableHead>
               <TableHead
-                rowSpan={3}
-                className="text-l border border-gray-500 text-center font-bold"
-              >
-                震後秒數
-              </TableHead>
-              <TableHead
                 colSpan={17}
                 className="text-l border border-gray-500 text-center font-bold"
               >
-                數據分析
+                紀錄數據
               </TableHead>
             </TableRow>
 
@@ -460,11 +470,32 @@ export default function EarthquakeData() {
           {stationReport && station && region
             ? (
                 <TableBody>
-                  {Object.entries(station).map(([id, data], index) => (
+                  {stationReport.map((data, index) => (
                     <TableRow key={index}>
-                      <TableCell className="border border-gray-300 text-center">{id}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{data.net}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{findLocationByCode(region, data.info.at(-1)?.code ?? 0)}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.id}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{getStationInfoById(data.id.toString())?.net}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{findLocationByCode(region, getStationInfoById(data.id.toString())?.info.at(-1)?.code ?? 0)}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.ax}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.ay}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.az}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.vx}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.vy}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.vz}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.pga}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.pgv}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.i}</TableCell>
+                      <TableCell className={`
+                        border border-gray-300 text-center
+                        ${getIntensityClass(intensity_float_to_int(data.i))}
+                      `}
+                      >
+                        {intensity_list[intensity_float_to_int(data.i)]}
+                      </TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.sva}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.lpgm}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.start}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.end}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{0}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -472,7 +503,7 @@ export default function EarthquakeData() {
             : (
                 <TableBody>
                   <TableRow>
-                    <TableCell colSpan={19} className="text-center">無資料</TableCell>
+                    <TableCell colSpan={18} className="text-center">無資料</TableCell>
                   </TableRow>
                 </TableBody>
               )}

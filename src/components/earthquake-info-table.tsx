@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
-import { formatTime, intensity_list } from '@/lib/utils';
+import { formatTime, getIntensityClass, intensity_list } from '@/lib/utils';
 
 import {
   Table,
@@ -172,8 +172,20 @@ export default function EarthquakeInfoTable() {
                 <TableCell className="border border-gray-300 text-center">{data.Lon}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Depth}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Mag.toFixed(1)}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{intensity_list[data.Max]}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.Cwa_id ? intensity_list[findCwaEarthquake(data.Cwa_id)?.int ?? 0] : ''}</TableCell>
+                <TableCell className={`
+                  border border-gray-300 text-center
+                  ${getIntensityClass(data.Max)}
+                `}
+                >
+                  {intensity_list[data.Max]}
+                </TableCell>
+                <TableCell className={`
+                  border border-gray-300 text-center
+                  ${getIntensityClass(data.Cwa_id ? findCwaEarthquake(data.Cwa_id)?.int ?? 0 : 0)}
+                `}
+                >
+                  {data.Cwa_id ? intensity_list[findCwaEarthquake(data.Cwa_id)?.int ?? 0] : ''}
+                </TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Lpgm}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Alarm ? 'TRUE' : ''}</TableCell>
               </TableRow>

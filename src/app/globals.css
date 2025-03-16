@@ -122,3 +122,48 @@
     @apply bg-background text-foreground;
   }
 }
+
+.intensity-1 {
+  color: white;
+  background-color: #003264;
+}
+
+.intensity-2 {
+  color: white;
+  background-color: #0064C8;
+}
+
+.intensity-3 {
+  color: white;
+  background-color: #1E9632;
+}
+
+.intensity-4 {
+  color: black;
+  background-color: #FFC800;
+}
+
+.intensity-5 {
+  color: black;
+  background-color: #FF9600;
+}
+
+.intensity-6 {
+  color: black;
+  background-color: #FF6400;
+}
+
+.intensity-7 {
+  color: white;
+  background-color: #FF0000;
+}
+
+.intensity-8 {
+  color: white;
+  background-color: #C00000;
+}
+
+.intensity-9 {
+  color: white;
+  background-color: #9600C8;
+}
