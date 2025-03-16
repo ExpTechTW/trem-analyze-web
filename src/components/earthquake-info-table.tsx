@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
-import { findPageNext, findPageNumber, findPagePrevious, formatTime, getIntensityClass, getLpgmClass, intensity_list } from '@/lib/utils';
+import { findPageNext, findPageNumber, findPagePrevious, formatTime, getIntensityClass, getLpgmClass, intensity_list, pagesEarthquakeQuantity } from '@/lib/utils';
 
 import {
   Pagination,
@@ -35,11 +35,11 @@ export default function EarthquakeInfoTable() {
   };
 
   const nextPage = () => {
-    void router.push(`?page=${findPageNext(Number(searchParams.get('page')) || 1, earthquakeReport)}${searchParams.get('dev') ? '&dev=1' : ''}`);
+    void router.push(`?page=${findPageNext(Number(searchParams.get('page')), earthquakeInfo)}${searchParams.get('dev') ? '&dev=1' : ''}`);
   };
 
   const previousPage = () => {
-    void router.push(`?page=${findPagePrevious(Number(searchParams.get('page')) || 1)}${searchParams.get('dev') ? '&dev=1' : ''}`);
+    void router.push(`?page=${findPagePrevious(Number(searchParams.get('page')))}${searchParams.get('dev') ? '&dev=1' : ''}`);
   };
 
   const numberPage = (id: number) => {
@@ -168,7 +168,7 @@ export default function EarthquakeInfoTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {earthquakeInfo.filter((data) => searchParams.get('dev') || data.Alarm).map((data, index) => (
+            {pagesEarthquakeQuantity(Number(searchParams.get('page')), earthquakeInfo).map((data, index) => (
               <TableRow key={data.ID}>
                 <TableCell className="border border-gray-300 text-center">{index + 1}</TableCell>
                 <TableCell
@@ -225,7 +225,7 @@ export default function EarthquakeInfoTable() {
             <PaginationItem>
               <PaginationPrevious onClick={() => previousPage()} />
             </PaginationItem>
-            {findPageNumber(null, earthquakeReport).map((pageNumber: number, index: number) => (
+            {findPageNumber(null, earthquakeInfo).map((pageNumber: number, index: number) => (
               <PaginationItem key={index}>
                 <PaginationLink onClick={() => numberPage(pageNumber)}>{pageNumber}</PaginationLink>
               </PaginationItem>

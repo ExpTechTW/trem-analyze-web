@@ -48,6 +48,7 @@ export function getLpgmClass(intensity: number) {
 }
 
 export function pagesEarthquakeQuantity(page: number | null, data: EarthquakeInfo[]) {
+  // TODO: dev沒用
   const arrayData: EarthquakeInfo[] = [];
 
   if (data.length === 0) return [];
@@ -60,36 +61,37 @@ export function pagesEarthquakeQuantity(page: number | null, data: EarthquakeInf
 
   const startIndex = (page - 1) * 10;
   const endIndex = startIndex + 10;
-  arrayData.push(...data.slice(startIndex, endIndex));
+
+  for (let i = startIndex; i < endIndex; i++) {
+    arrayData.push(data[i]);
+  }
+
   return arrayData;
 };
 
 export function findPageNumber(page: number | null, data: Array<EarthquakeInfo>): number[] {
+  // HXXXACK: 10占用
   page = page ?? 1;
 
   const maxPage = Math.ceil(data.length / 10);
   page = Math.min(page, maxPage);
 
-  if (maxPage <= 5) {
-    return Array.from({ length: maxPage }, (_, i) => i + 1);
+  if (maxPage <= 5 || page <= 3) {
+    return [1, 2, 3, 4, 5];
   }
 
-  if (page <= 3) {
-    return Array.from({ length: Math.min(5, maxPage) }, (_, i) => i + 1);
-  }
-
-  const start = Math.max(1, page - 2);
-  const end = Math.min(maxPage, page + 2);
+  const start = page - 2;
+  const end = page + 2;
 
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 };
 
 export function findPagePrevious(page: number) {
-  // const maxPage = Math.ceil(data.length / 10);
-  return page - 1 > 0 ? 1 : page - 1;
+  return page - 1 > -1 ? 1 : page - 1;
 }
 
 export function findPageNext(page: number, data: Array<EarthquakeInfo>) {
+  // HACK: 10占用
   const maxPage = Math.ceil(data.length / 10);
   return page + 1 > maxPage ? maxPage : page + 1;
 }
