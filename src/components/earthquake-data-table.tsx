@@ -8,11 +8,13 @@ import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 import { StationList, StationReport } from '@/modal/station';
 import { TremEew } from '@/modal/trem';
+import { formatTime } from '@/lib/utils';
 
 import {
   Table,
   TableBody,
   TableCaption,
+  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -253,8 +255,39 @@ export default function EarthquakeData() {
               </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-          </TableBody>
+          {tremEew && earthquakeReport
+            ? (
+                <TableBody>
+                  {tremEew.map((data, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="border border-gray-300 text-center">{index + 1}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{formatTime(data.time)}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{Math.round((data.time - tremEew[0].time) / 1000)}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{Math.round((data.time - earthquakeReport.time) / 1000)}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{formatTime(data.eq.time)}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.eq.loc}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.eq.lat}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.eq.lon}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.eq.depth}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.eq.mag.toFixed(1)}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.eq.max}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.rts ? 'TRUE' : ''}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.detail ? 'EEW' : 'NSSPE'}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.reason}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.trigger}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{0}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">{data.status == 2 ? 'TRUE' : ''}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              )
+            : (
+                <TableBody>
+                  <TableRow>
+                    <TableCell colSpan={17} className="text-center">無資料</TableCell>
+                  </TableRow>
+                </TableBody>
+              )}
         </Table>
       </div>
       <div className="mx-8 my-5">
@@ -424,8 +457,23 @@ export default function EarthquakeData() {
               </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-          </TableBody>
+          {stationReport && station
+            ? (
+                <TableBody>
+                  {stationReport.map((data, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="border border-gray-300 text-center">{index + 1}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              )
+            : (
+                <TableBody>
+                  <TableRow>
+                    <TableCell colSpan={19} className="text-center">無資料</TableCell>
+                  </TableRow>
+                </TableBody>
+              )}
           <TableCaption>Taiwan Real-time Earthquake Monitoring｜2025｜ExpTech Studio</TableCaption>
         </Table>
       </div>
