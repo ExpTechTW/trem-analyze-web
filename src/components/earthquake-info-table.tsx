@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-import { EarthquakeData, EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
-import { formatTime, searchEq } from '@/lib/utils';
+import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
+import { formatTime, intensity_list } from '@/lib/utils';
 
 import {
   Table,
@@ -17,7 +17,7 @@ import {
 export default function EarthquakeInfoTable() {
   const [earthquakeInfo, setEarthquakeInfo] = useState<Array<EarthquakeInfo>>([]);
   const [earthquakeReport, setEarthquakeReport] = useState<Array<EarthquakeReport>>([]);
-  const [earthquakeData, setEarthquakeData] = useState<Array<EarthquakeData>>([]);
+  const searchParams = useSearchParams();
 
   const router = useRouter();
 
@@ -36,41 +36,16 @@ export default function EarthquakeInfoTable() {
 
   useEffect(() => {
     const fetchEarthquakeInfo = async () => {
-      const res = await fetch(`https://api-1.exptech.dev/api/v1/trem/list?key=undefined`);
+      const res = await fetch(`https://api-1.exptech.dev/api/v1/trem/list?key=`);
       const ans = await res.json() as Array<EarthquakeInfo>;
       setEarthquakeInfo(ans);
     };
     void fetchEarthquakeInfo();
   }, []);
 
-  useEffect(() => {
-    if (!earthquakeInfo.length && !earthquakeReport.length) return;
-    const earthquakeDataArray: Array<EarthquakeData> = [];
-    for (const data of earthquakeInfo) {
-      const eq = (data.Cwa_id) ? searchEq(data.Cwa_id, earthquakeReport) : null;
-      if (!eq) continue;
-      const for_data: EarthquakeData = {
-        id: eq.id,
-        Source: data.Source,
-        Serial: data.Serial,
-        time: eq.time,
-        trem: eq.trem,
-        Loc: data.Loc,
-        lat: eq.lat,
-        lon: eq.lon,
-        depth: eq.depth,
-        mag: data.Mag,
-        Max: data.Max,
-        int: eq.int,
-        Lpgm: data.Lpgm,
-        Alarm: data.Alarm,
-        md5: eq.md5,
-        url: data.ID,
-      };
-      earthquakeDataArray.push(for_data);
-    }
-    setEarthquakeData(earthquakeDataArray);
-  }, [earthquakeInfo, earthquakeReport]);
+  const findCwaEarthquake = (id: string) => {
+    return earthquakeReport.find((data) => data.id == id);
+  };
 
   return (
     <div>
@@ -173,21 +148,26 @@ export default function EarthquakeInfoTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {earthquakeData.map((data, index) => (
-              <TableRow key={data.id}>
+            {earthquakeInfo.filter((data) => searchParams.get('dev') || data.Alarm).map((data, index) => (
+              <TableRow key={data.ID}>
                 <TableCell className="border border-gray-300 text-center">{index + 1}</TableCell>
-                <TableCell className="border border-gray-300 text-center" onClick={() => openNewWindow(data.url)}>{data.id}</TableCell>
+                <TableCell className="border border-gray-300 text-center" onClick={() => openNewWindow(data.ID)}>
+                  {formatTime(Number(data.ID))
+                    .replaceAll('/', '')
+                    .replaceAll(':', '')
+                    .replace(' ', '')}
+                </TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Source}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Serial}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{formatTime(data.time)}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{formatTime(data.trem)}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{formatTime(Number(data.ID))}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Cwa_id ? formatTime(findCwaEarthquake(data.Cwa_id)?.time ?? 0) : ''}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Loc}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.lat}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.lon}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.depth}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.mag}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.Max}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.int}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Lat}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Lon}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Depth}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Mag.toFixed(1)}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{intensity_list[data.Max]}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Cwa_id ? intensity_list[findCwaEarthquake(data.Cwa_id)?.int ?? 0] : ''}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Lpgm}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Alarm ? 'TRUE' : ''}</TableCell>
               </TableRow>
