@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { EarthquakeData, EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake-info';
-import { searchEq } from '@/lib/utils';
+import { formatTime, searchEq } from '@/lib/utils';
 
 import {
   Table,
@@ -179,8 +179,8 @@ export default function EarthquakeInfoTable() {
                 <TableCell className="border border-gray-300 text-center" onClick={() => openNewWindow(data.url)}>{data.id}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Source}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Serial}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.time}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.trem}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{formatTime(data.time)}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{formatTime(data.trem)}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Loc}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.lat}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.lon}</TableCell>

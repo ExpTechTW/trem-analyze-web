@@ -1,3 +1,7 @@
+'use client';
+import { Undo2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
 import { Progress } from '@/components/ui/progress';
 
 import {
@@ -10,8 +14,31 @@ import {
 } from './ui/table';
 
 export default function EarthquakeInfoData() {
+  const router = useRouter();
+
+  const openNewWindow = () => {
+    void router.push(`./`);
+  };
+
   return (
     <div>
+      <div className="flex items-center justify-start p-1" onClick={() => openNewWindow()}>
+        <div className={`
+          flex items-center space-x-2 rounded-md bg-sky-400 px-3 py-1.5
+          shadow-sm transition
+          hover:bg-sky-500
+        `}
+        >
+          <div className={`
+            flex h-6 w-6 items-center justify-center rounded-full bg-blue-100
+          `}
+          >
+            <Undo2 className="h-4 w-4 text-blue-700" />
+          </div>
+          <a className="text-base font-medium text-white">返回主頁</a>
+        </div>
+      </div>
+
       <div className="text-l flex justify-center divide-x-1 py-8 text-center">
         <div className="px-8">
           <p className="font-bold">EventID</p>
