@@ -57,62 +57,33 @@ export function getLpgmClass(intensity: number) {
 }
 
 export function pagesEarthquakeQuantity(page: number | null, data: EarthquakeInfo[], dev: boolean) {
-  const arrayData: EarthquakeInfo[] = [];
-
   if (data.length === 0) return [];
 
-  page = page ?? 1;
-
+  const pageNumber = Math.max(page ?? 1, 1);
   const maxPage = Math.ceil(mathPageDataLength(data, dev) / 10);
+  const currentPage = Math.min(pageNumber, maxPage);
+  const startIndex = (currentPage - 1) * 10;
 
-  page = Math.min(page, maxPage);
-  const startIndex = ((page - 1) < 0 ? 1 : (page - 1)) * 10;
+  const filteredData = dev ? data : findDataAlarm(data, dev);
 
-  if (!dev) {
-    const _data = findDataAlarm(data, dev);
-    console.log(_data);
-    for (let i = 0, j = 10; i < j; i++) {
-      if (!_data[i + startIndex].Alarm && !dev) {
-        j++;
-        continue;
-      }
-      if (_data.length < i + startIndex) {
-        return;
-      }
-      arrayData.push(_data[i + startIndex]);
-    }
-  }
-  else {
-    for (let i = 0, j = 10; i < j; i++) {
-      if (!data[i + startIndex].Alarm && !dev) {
-        j++;
-        continue;
-      }
-      arrayData.push(data[i + startIndex]);
-    }
-  }
-  return arrayData;
-};
+  return filteredData.slice(startIndex, startIndex + 10);
+}
 
-export function findPageNumber(page: number | null, data: Array<EarthquakeInfo>, dev: boolean): number[] {
-  // HACK: 10占用
-  // XXX
-  page = page ?? 1;
+export function findPageNumber(page: number | null, data: EarthquakeInfo[], dev: boolean): number[] {
+  const currentPage = Math.max(page ?? 1, 1);
 
-  const nu = dev ? data.length : data.reduce((count, item) => count + (item.Alarm ? 1 : 0), 0);
+  const totalItems = dev ? data.length : data.filter((item) => item.Alarm).length;
+  const maxPage = Math.max(Math.ceil(totalItems / 10), 1);
 
-  const maxPage = Math.ceil(nu / 10);
-  page = Math.min(page, maxPage);
+  const clampedPage = Math.min(currentPage, maxPage);
 
-  if (maxPage <= 5 || page <= 3) {
-    return [1, 2, 3, 4, 5];
-  }
+  if (maxPage <= 5) return Array.from({ length: maxPage }, (_, i) => i + 1);
 
-  if (maxPage == page) {
-    return [page - 2, page - 1, page];
-  }
+  if (clampedPage <= 3) return [1, 2, 3, 4, 5];
 
-  return [page - 2, page - 1, page, page + 1, page + 2];
+  if (clampedPage >= maxPage - 2) return [maxPage - 4, maxPage - 3, maxPage - 2, maxPage - 1, maxPage];
+
+  return [clampedPage - 2, clampedPage - 1, clampedPage, clampedPage + 1, clampedPage + 2];
 }
 
 export function findPagePrevious(page: number) {
@@ -122,6 +93,5 @@ export function findPagePrevious(page: number) {
 export function findPageNext(page: number, data: Array<EarthquakeInfo>, dev: boolean) {
   // HACK: 10占用
   const maxPage = Math.ceil(mathPageDataLength(data, dev) / 10);
-  console.log(mathPageDataLength(data, dev));
   return page + 1 > maxPage ? maxPage : page + 1;
 }
