@@ -88,7 +88,7 @@ export default function EarthquakeInfoTable() {
       </div>
       <div className="py-2 text-center font-bold">
         <Checkbox id="devBotton" onClick={() => devModButton()} />
-        <label htmlFor="devBotton">Dev MOD</label>
+        <label htmlFor="devBotton">Dev Mode</label>
       </div>
       <div className="pr-8 pl-8">
         <Table className="w-full border-collapse border border-gray-500">
