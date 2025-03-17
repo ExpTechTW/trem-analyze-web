@@ -50,6 +50,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       initialData={data}
       page={searchParams.page ? parseInt(searchParams.page) : 1}
       dev={searchParams.dev === '1'}
+      month={searchParams.month}
     />
   );
 }

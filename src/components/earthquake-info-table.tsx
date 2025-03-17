@@ -39,13 +39,14 @@ interface EarthquakeInfoTableProps {
   };
   page: number;
   dev: boolean;
+  month?: string;
 }
 
-export default function EarthquakeInfoTable({ initialData, page, dev }: EarthquakeInfoTableProps) {
+export default function EarthquakeInfoTable({ initialData, page, dev, month }: EarthquakeInfoTableProps) {
   const router = useRouter();
   const { earthquakeInfo, earthquakeReport } = initialData;
   const [monthList, setMonthList] = useState<MonthData[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState<string>('all');
+  const [selectedMonth, setSelectedMonth] = useState<string>(month || 'all');
 
   useEffect(() => {
     const fetchMonthData = async () => {
