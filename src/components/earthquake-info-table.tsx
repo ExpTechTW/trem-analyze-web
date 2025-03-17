@@ -99,7 +99,6 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
           <Checkbox id="devBotton" checked={dev} onClick={devModButton} />
           <label htmlFor="devBotton">Dev Mode</label>
         </div>
-
         <div className="w-64">
           <Select value={selectedMonth} onValueChange={handleMonthChange}>
             <SelectTrigger>
@@ -123,7 +122,6 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
           </Select>
         </div>
       </div>
-
       <div className="pl-8 pr-8">
         <Table className="w-full border-collapse border border-gray-500">
           <TableHeader>
