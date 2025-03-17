@@ -54,14 +54,15 @@ async function getData(id: string) {
 }
 
 interface InfoPageProps {
-  searchParams: {
+  searchParams: Promise<{
     id?: string;
     dev?: string;
-  };
+  }>;
 }
 
 export default async function InfoPage({ searchParams }: InfoPageProps) {
-  const data = await getData(searchParams.id || '');
+  const params = await searchParams;
+  const data = await getData(params.id || '');
 
   if (!data) {
     notFound();
@@ -70,7 +71,7 @@ export default async function InfoPage({ searchParams }: InfoPageProps) {
   return (
     <EarthquakeData
       initialData={data}
-      dev={searchParams.dev === '1'}
+      dev={params.dev === '1'}
     />
   );
 }

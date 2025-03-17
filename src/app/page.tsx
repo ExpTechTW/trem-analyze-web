@@ -34,23 +34,23 @@ async function getData(month?: string) {
 }
 
 interface HomePageProps {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
     dev?: string;
     month?: string;
-  };
+  }>;
 }
 
 export default async function HomePage({ searchParams }: HomePageProps) {
-  const { month } = searchParams;
-  const data = await getData(month);
+  const params = await searchParams;
+  const data = await getData(params.month);
 
   return (
     <EarthquakeInfoTable
       initialData={data}
-      page={searchParams.page ? parseInt(searchParams.page) : 1}
-      dev={searchParams.dev === '1'}
-      month={searchParams.month}
+      page={params.page ? parseInt(params.page) : 1}
+      dev={params.dev === '1'}
+      month={params.month}
     />
   );
 }
