@@ -43,7 +43,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
     <div>
       <div className="flex cursor-pointer items-center justify-start pt-2 pl-2">
         <a
-          href={`/?dev=${dev ? '1' : ''}${searchParams.get('page') ? `&page=${searchParams.get('page')}` : ''}${searchParams.get('month') ? `&month=${searchParams.get('month')}` : ''}`}
+          href={`../?dev=${dev ? '1' : ''}${searchParams.get('page') ? `&page=${searchParams.get('page')}` : ''}${searchParams.get('month') ? `&month=${searchParams.get('month')}` : ''}`}
           className={`
             flex items-center space-x-2 rounded-md bg-sky-400 px-3 py-1.5
             shadow-sm transition
