@@ -43,12 +43,8 @@ export default ts.config(
           'newlines-between': 'always',
         },
       ],
-      'sort-imports': [
-        'warn',
-        {
-          allowSeparatedGroups: true,
-        },
-      ],
+      "sort-imports": ["error", { "ignoreDeclarationSort": true }],
+      '@typescript-eslint/prefer-nullish-coalescing': 'off',
     },
   },
   {
