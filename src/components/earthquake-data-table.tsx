@@ -91,7 +91,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
       <div className="pr-8 pb-8 pl-8">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
-            <TableRow className="bg-gray-300">
+            <TableRow className="bg-primary hover:bg-primary">
               <TableHead
                 rowSpan={2}
                 className="text-l border border-gray-500 text-center font-bold"
@@ -124,7 +124,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
               </TableHead>
             </TableRow>
 
-            <TableRow className="bg-gray-300">
+            <TableRow className="bg-primary hover:bg-primary">
               <TableHead className={`
                 text-l border border-gray-500 text-center font-bold
               `}
@@ -252,7 +252,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
       <div className="pr-8 pb-8 pl-8">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
-            <TableRow className="bg-gray-300">
+            <TableRow className="bg-primary hover:bg-primary">
               <TableHead
                 rowSpan={3}
                 className="text-l border border-gray-500 text-center font-bold"
@@ -279,7 +279,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
               </TableHead>
             </TableRow>
 
-            <TableRow className="bg-gray-300">
+            <TableRow className="bg-primary hover:bg-primary">
               <TableHead
                 colSpan={3}
                 className="text-l border border-gray-500 text-center font-bold"
@@ -311,7 +311,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
               </TableHead>
             </TableRow>
 
-            <TableRow className="bg-gray-300">
+            <TableRow className="bg-primary hover:bg-primary">
               <TableHead className={`
                 text-l border border-gray-500 text-center font-bold
               `}
@@ -444,7 +444,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
                   <a
                     href={`https://api-1.exptech.dev/file/trem_report/${data.ID}.zip`}
                     className={`
-                      text-blue-500
+                      text-primary
                       hover:underline
                     `}
                   >

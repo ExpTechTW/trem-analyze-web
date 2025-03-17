@@ -127,7 +127,7 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
       <div className="pr-8 pl-8">
         <Table className="w-full border-collapse border border-gray-500">
           <TableHeader>
-            <TableRow className="bg-gray-300">
+            <TableRow className="bg-primary hover:bg-primary">
               <TableHead
                 rowSpan={2}
                 className="text-l border border-gray-500 text-center font-bold"
@@ -154,7 +154,7 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
               </TableHead>
             </TableRow>
 
-            <TableRow className="bg-gray-300">
+            <TableRow className="bg-primary hover:bg-primary">
               <TableHead className={`
                 text-l border border-gray-500 text-center font-bold
               `}
@@ -238,7 +238,7 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
                 <TableCell
                   className={`
                     cursor-pointer border border-gray-300 text-center
-                    text-blue-700 underline
+                    text-primary underline
                   `}
                   onClick={() => openNewWindow(data.ID)}
                 >
