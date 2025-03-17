@@ -60,7 +60,7 @@ export function pagesEarthquakeQuantity(page: number | null, data: EarthquakeInf
   if (data.length === 0) return [];
 
   const pageNumber = Math.max(page ?? 1, 1);
-  const maxPage = Math.ceil(mathPageDataLength(data, dev) / 10);
+  const maxPage = Math.ceil(mathPageDataLength(data, dev) / 100);
   const currentPage = Math.min(pageNumber, maxPage);
   const startIndex = (currentPage - 1) * 10;
 
@@ -73,7 +73,7 @@ export function findPageNumber(page: number | null, data: EarthquakeInfo[], dev:
   const currentPage = Math.max(page ?? 1, 1);
 
   const totalItems = dev ? data.length : data.filter((item) => item.Alarm).length;
-  const maxPage = Math.max(Math.ceil(totalItems / 10), 1);
+  const maxPage = Math.max(Math.ceil(totalItems / 100), 1);
 
   const clampedPage = Math.min(currentPage, maxPage);
 
@@ -91,8 +91,7 @@ export function findPagePrevious(page: number) {
 }
 
 export function findPageNext(page: number, data: Array<EarthquakeInfo>, dev: boolean) {
-  // HACK: 10占用
-  const maxPage = Math.ceil(mathPageDataLength(data, dev) / 10);
+  const maxPage = Math.ceil(mathPageDataLength(data, dev) / 100);
   return page + 1 > maxPage ? maxPage : page + 1;
 }
 

@@ -1,10 +1,20 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { findPageNext, findPageNumber, findPagePrevious, formatTime, getIntensityClass, getLpgmClass, intensity_list, mathPageDataLength, pagesEarthquakeQuantity } from '@/lib/utils';
-
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Pagination,
   PaginationContent,
@@ -13,7 +23,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from './ui/pagination';
+} from '@/components/ui/pagination';
 import {
   Table,
   TableBody,
@@ -22,8 +32,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from './ui/table';
-import { Checkbox } from './ui/checkbox';
+} from '@/components/ui/table';
+
+interface MonthData {
+  'year-month': string;
+  'count': number;
+}
 
 interface EarthquakeInfoTableProps {
   initialData: {
@@ -37,29 +51,72 @@ interface EarthquakeInfoTableProps {
 export default function EarthquakeInfoTable({ initialData, page, dev }: EarthquakeInfoTableProps) {
   const router = useRouter();
   const { earthquakeInfo, earthquakeReport } = initialData;
+  const [monthList, setMonthList] = useState<MonthData[]>([]);
+  const [selectedMonth, setSelectedMonth] = useState<string>('all');
+
+  useEffect(() => {
+    const fetchMonthData = async () => {
+      try {
+        const response = await fetch('https://api-1.exptech.dev/api/v1/trem/month?key=');
+        const data = await response.json() as MonthData[];
+
+        setMonthList(data);
+      }
+      catch (error) {
+        console.error('Error fetching month data:', error);
+      }
+    };
+
+    void fetchMonthData();
+  }, []);
 
   const openNewWindow = (id: string) => {
     router.push(`/info?id=${id}${dev ? '&dev=1' : ''}`);
   };
 
   const nextPage = () => {
-    router.push(`?page=${findPageNext(page, earthquakeInfo, dev)}${dev ? '&dev=1' : ''}`);
+    const queryParams = new URLSearchParams();
+    queryParams.set('page', findPageNext(page, earthquakeInfo, dev).toString());
+    if (selectedMonth) queryParams.set('month', selectedMonth);
+    if (dev) queryParams.set('dev', '1');
+    router.push(`?${queryParams.toString()}`);
   };
 
   const previousPage = () => {
-    router.push(`?page=${findPagePrevious(page)}${dev ? '&dev=1' : ''}`);
+    const queryParams = new URLSearchParams();
+    queryParams.set('page', findPagePrevious(page).toString());
+    if (selectedMonth) queryParams.set('month', selectedMonth);
+    if (dev) queryParams.set('dev', '1');
+    router.push(`?${queryParams.toString()}`);
   };
 
   const numberPage = (id: number) => {
-    router.push(`?page=${id}${dev ? '&dev=1' : ''}`);
+    const queryParams = new URLSearchParams();
+    queryParams.set('page', id.toString());
+    if (selectedMonth) queryParams.set('month', selectedMonth);
+    if (dev) queryParams.set('dev', '1');
+    router.push(`?${queryParams.toString()}`);
   };
 
   const devModButton = () => {
-    router.push(`?page=${page}${!dev ? '&dev=1' : ''}`);
+    const queryParams = new URLSearchParams();
+    queryParams.set('page', page.toString());
+    if (selectedMonth) queryParams.set('month', selectedMonth);
+    if (!dev) queryParams.set('dev', '1');
+    router.push(`?${queryParams.toString()}`);
+  };
+
+  const handleMonthChange = (value: string) => {
+    setSelectedMonth(value);
+    const queryParams = new URLSearchParams();
+    queryParams.set('page', '1');
+    if (value && value !== 'all') queryParams.set('month', value);
+    if (dev) queryParams.set('dev', '1');
+    router.push(`?${queryParams.toString()}`);
   };
 
   const pageNumbers = findPageNumber(page, earthquakeInfo, dev);
-  const pageMax = Math.ceil(mathPageDataLength(earthquakeInfo, dev) / 10);
+  const pageMax = Math.ceil(mathPageDataLength(earthquakeInfo, dev) / 100);
 
   const findCwaEarthquake = (id: string) => {
     return earthquakeReport.find((data) => data.id === id);
@@ -70,10 +127,37 @@ export default function EarthquakeInfoTable({ initialData, page, dev }: Earthqua
       <div className="p-4 text-center text-3xl font-bold">
         TREM EEW
       </div>
-      <div className="py-2 text-center font-bold">
-        <Checkbox id="devBotton" checked={dev} onClick={devModButton} />
-        <label htmlFor="devBotton">Dev Mode</label>
+
+      <div className="mb-4 flex items-center justify-center gap-6">
+        <div className="flex items-center gap-2">
+          <Checkbox id="devBotton" checked={dev} onClick={devModButton} />
+          <label htmlFor="devBotton">Dev Mode</label>
+        </div>
+
+        <div className="w-64">
+          <Select value={selectedMonth} onValueChange={handleMonthChange}>
+            <SelectTrigger>
+              <SelectValue placeholder="選擇月份" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>選擇月份</SelectLabel>
+                <SelectItem value="all">最近 100 筆</SelectItem>
+                {monthList.map((month) => (
+                  <SelectItem key={month['year-month']} value={month['year-month']}>
+                    {month['year-month']}
+                    {' '}
+                    (
+                    {month.count}
+                    )
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
+
       <div className="pr-8 pl-8">
         <Table className="w-full border-collapse border border-gray-500">
           <TableHeader>
