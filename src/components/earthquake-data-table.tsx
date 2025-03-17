@@ -83,6 +83,16 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
       </div>
 
       {earthquakeInfo.Cwa_id && (
+        <div className="mx-8 my-3">
+          <Progress value={100} className="h-1" />
+        </div>
+      )}
+
+      {earthquakeInfo.Cwa_id && (
+        <div className="p-4 text-center text-3xl font-bold">CWA 地震報告</div>
+      )}
+
+      {earthquakeInfo.Cwa_id && (
         <div className="p-8">
           <Table className="w-full border-collapse border border-gray-300">
             <TableHeader>
@@ -152,7 +162,13 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
                   M
                   {earthquakeReport.mag.toFixed(1)}
                 </TableCell>
-                <TableCell className="border border-gray-300 text-center">{findMaxInt(earthquakeReport.list)}</TableCell>
+                <TableCell className={`
+                  border border-gray-300 text-center
+                  ${getLpgmClass(findMaxInt(earthquakeReport.list))}
+                `}
+                >
+                  {findMaxInt(earthquakeReport.list)}
+                </TableCell>
                 <TableCell className="border border-gray-300 text-center">
                   <a
                     href={`https://www.cwa.gov.tw/V8/C/E/EQ/EQ${earthquakeInfo.Cwa_id.split('-')[0]}-${earthquakeInfo.Cwa_id.split('-')[2]}-${earthquakeInfo.Cwa_id.split('-')[3]}.html`}
