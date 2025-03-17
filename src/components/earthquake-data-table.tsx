@@ -529,7 +529,17 @@ export default function EarthquakeData() {
                       </TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.start}</TableCell>
                       <TableCell className="border border-gray-300 text-center">{data.end}</TableCell>
-                      <TableCell className="border border-gray-300 text-center">{0}</TableCell>
+                      <TableCell className="border border-gray-300 text-center">
+                        <a
+                          href={`https://api-1.exptech.dev/file/trem_report/${data.ID}.zip`}
+                          className={`
+                            text-blue-500
+                            hover:underline
+                          `}
+                        >
+                          zip
+                        </a>
+                      </TableCell>
                     </TableRow>
                   ))
                 )
