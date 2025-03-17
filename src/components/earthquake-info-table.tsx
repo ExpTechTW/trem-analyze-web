@@ -64,7 +64,7 @@ export default function EarthquakeInfoTable({ initialData, page, dev }: Earthqua
   }, []);
 
   const openNewWindow = (id: string) => {
-    router.push(`/info?id=${id}${dev ? '&dev=1' : ''}`);
+    router.push(`/info?id=${id}${dev ? '&dev=1' : ''}${page != 1 ? `&page=${page}` : ''}${(selectedMonth && selectedMonth !== 'all') ? `&month=${selectedMonth}` : ''}`);
   };
 
   const devModButton = () => {
