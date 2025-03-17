@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import { EarthquakeInfo } from '@/modal/earthquake';
+import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 
 export function mathPageDataLength(data: EarthquakeInfo[], dev: boolean) {
@@ -48,10 +48,11 @@ export function intensity_float_to_int(i: number) {
   return i < 0 ? 0 : i < 4.5 ? Math.round(i) : i < 5 ? 5 : i < 5.5 ? 6 : i < 6 ? 7 : i < 6.5 ? 8 : 9;
 }
 
-export function findMaxInt(data) {
-  let maxInt = null;
-  for (const key of Object.keys(data))
-    if (maxInt == null || data[key].int > maxInt) maxInt = data[key].int;
+export function findMaxInt(list: EarthquakeReport['list']) {
+  let maxInt = 0;
+  Object.entries(list).map(([id,data])=>{
+    if(data.int>maxInt) maxInt = data.int;
+  })
   return maxInt;
 }
 
