@@ -62,7 +62,7 @@ interface InfoPageProps {
 
 export default async function InfoPage({ searchParams }: InfoPageProps) {
   const params = await searchParams;
-  const data = await getData(params.id || '');
+  const data = await getData(params.id ?? '');
 
   if (!data) {
     notFound();

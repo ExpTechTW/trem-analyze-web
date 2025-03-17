@@ -25,7 +25,7 @@ interface EarthquakeDataProps {
 
 function getStationInfoById(station: StationList, id: string) {
   if (!station || !id) return null;
-  return station[id] || null;
+  return station[id] ?? null;
 }
 
 export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps) {
@@ -43,8 +43,8 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
   } = initialData;
 
   if (dev) params.set('dev', '1');
-  if (searchParams.get('page')) params.set('page', searchParams.get('page') || '');
-  if (searchParams.get('month')) params.set('month', searchParams.get('month') || '');
+  if (searchParams.get('page')) params.set('page', searchParams.get('page') ?? '');
+  if (searchParams.get('month')) params.set('month', searchParams.get('month') ?? '');
 
   return (
     <div>
