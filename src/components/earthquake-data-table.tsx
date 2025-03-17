@@ -172,7 +172,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
                 </TableCell>
                 <TableCell className={`
                   border border-gray-300 text-center
-                  ${getLpgmClass(findMaxInt(earthquakeReport.list))}
+                  ${getIntensityClass(findMaxInt(earthquakeReport.list))}
                 `}
                 >
                   {findMaxInt(earthquakeReport.list)}
