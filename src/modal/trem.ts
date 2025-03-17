@@ -1,5 +1,5 @@
 export interface TremEew {
-  status: 0 | 1 | 2 | 3;
+  status: 0 | 1 | 2;
   final: 0 | 1;
   rts: boolean;
   detail: 0 | 1;

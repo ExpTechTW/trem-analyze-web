@@ -31,7 +31,7 @@ export default function EarthquakeData() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const openNewWindow = () => {
+  const toHomeWindow = () => {
     void router.push(`./${searchParams.get('dev') ? '?dev=1' : ''}`);
   };
 
@@ -109,7 +109,7 @@ export default function EarthquakeData() {
 
   return (
     <div>
-      <div className="flex items-center justify-start pt-2 pl-2" onClick={() => openNewWindow()}>
+      <div className="flex cursor-pointer items-center justify-start pt-2 pl-2" onClick={() => toHomeWindow()}>
         <div className={`
           flex items-center space-x-2 rounded-md bg-sky-400 px-3 py-1.5
           shadow-sm transition
@@ -321,7 +321,7 @@ export default function EarthquakeData() {
                         {0}
                       </TableCell>
                       <TableCell className="border border-gray-300 text-center">
-                        {data.status == 2 ? 'TRUE' : ''}
+                        {data.status == 1 ? 'TRUE' : ''}
                       </TableCell>
                     </TableRow>
                   ))
