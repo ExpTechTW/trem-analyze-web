@@ -48,6 +48,13 @@ export function intensity_float_to_int(i: number) {
   return i < 0 ? 0 : i < 4.5 ? Math.round(i) : i < 5 ? 5 : i < 5.5 ? 6 : i < 6 ? 7 : i < 6.5 ? 8 : 9;
 }
 
+export function findMaxInt(data) {
+  let maxInt = null;
+  for (const key of Object.keys(data))
+    if (maxInt == null || data[key].int > maxInt) maxInt = data[key].int;
+  return maxInt;
+}
+
 export function getIntensityClass(intensity: number) {
   return `intensity-${intensity}`;
 }

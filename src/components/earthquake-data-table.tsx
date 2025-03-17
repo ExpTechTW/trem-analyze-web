@@ -9,7 +9,7 @@ import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 import { StationList, StationReport } from '@/modal/station';
 import { TremEew } from '@/modal/trem';
-import { distance, findLocationByCode, formatTime, getIntensityClass, getLpgmClass, intensity_float_to_int, intensity_list } from '@/lib/utils';
+import { distance, findLocationByCode, formatTime, getIntensityClass, getLpgmClass, intensity_float_to_int, intensity_list, findMaxInt } from '@/lib/utils';
 
 interface EarthquakeDataProps {
   initialData: {
@@ -81,6 +81,89 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
           <p>{formatTime(Number(earthquakeInfo.ID))}</p>
         </div>
       </div>
+      
+      {earthquakeInfo.Cwa_id && (
+        <div className='p-8'>
+          <Table className="w-full border-collapse border border-gray-300">
+            <TableHeader>
+              <TableRow className="bg-primary hover:bg-primary">
+                <TableHead className={`
+                    text-l border border-gray-500 text-center font-bold
+                  `}
+                  >
+                    發生時刻
+                  </TableHead>
+                  <TableHead className={`
+                    text-l border border-gray-500 text-center font-bold
+                  `}
+                  >
+                    震央地名
+                  </TableHead>
+                  <TableHead className={`
+                    text-l border border-gray-500 text-center font-bold
+                  `}
+                  >
+                    北緯
+                  </TableHead>
+                  <TableHead className={`
+                    text-l border border-gray-500 text-center font-bold
+                  `}
+                  >
+                    東經
+                  </TableHead>
+                  <TableHead className={`
+                    text-l border border-gray-500 text-center font-bold
+                  `}
+                  >
+                    深度
+                  </TableHead>
+                  <TableHead className={`
+                    text-l border border-gray-500 text-center font-bold
+                  `}
+                  >
+                    規模
+                  </TableHead>
+                  <TableHead className={`
+                    text-l border border-gray-500 text-center font-bold
+                  `}
+                  >
+                    實測最大震度
+                  </TableHead>
+                  <TableHead className={`
+                    text-l border border-gray-500 text-center font-bold
+                  `}
+                  >
+                    CWA地震報告
+                  </TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                <TableRow key='cwa'>
+                  <TableCell className="border border-gray-300 text-center">{formatTime(earthquakeReport.time)}</TableCell>
+                  <TableCell className="border border-gray-300 text-center">{earthquakeReport.loc?.match(/\(位於(.*?)\)/)}</TableCell>
+                  <TableCell className="border border-gray-300 text-center">{earthquakeReport.lat}</TableCell>
+                  <TableCell className="border border-gray-300 text-center">{earthquakeReport.lon}</TableCell>
+                  <TableCell className="border border-gray-300 text-center">{earthquakeReport.depth}</TableCell>
+                  <TableCell className="border border-gray-300 text-center">M {earthquakeReport.mag.toFixed(1)}</TableCell>
+                  <TableCell className="border border-gray-300 text-center">{findMaxInt(earthquakeReport.list)}</TableCell>
+                  <TableCell className="border border-gray-300 text-center"><a
+                    href={`https://www.cwa.gov.tw/V8/C/E/EQ/EQ${earthquakeInfo.Cwa_id.split('-')[0]}-${earthquakeInfo.Cwa_id.split('-')[2]}-${earthquakeInfo.Cwa_id.split('-')[3]}.html`}
+                    className={`
+                      text-primary
+                      hover:underline
+                    `}
+                  >點擊前往</a></TableCell>
+                </TableRow>
+              </TableBody>
+          </Table>
+        </div>
+      )}
+
+      {/* {earthquakeInfo.Cwa_id && (
+        <div className="mx-8 my-3">
+          <Progress value={100} className="h-1" />
+        </div>
+      )} */}
 
       <div className="mx-8 my-3">
         <Progress value={100} className="h-1" />
