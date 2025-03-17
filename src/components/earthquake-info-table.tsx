@@ -46,7 +46,7 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
   const router = useRouter();
   const { earthquakeInfo, earthquakeReport } = initialData;
   const [monthList, setMonthList] = useState<MonthData[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState<string>(month || 'all');
+  const [selectedMonth, setSelectedMonth] = useState<string>(month ?? 'all');
 
   useEffect(() => {
     const fetchMonthData = async () => {
