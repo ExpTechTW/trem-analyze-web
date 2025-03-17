@@ -242,14 +242,28 @@ export default function EarthquakeInfoTable({ initialData, page, dev }: Earthqua
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious onClick={previousPage} />
+              <PaginationPrevious
+                onClick={previousPage}
+                className={page === 1 ? 'pointer-events-none opacity-50' : ''}
+              />
             </PaginationItem>
             <PaginationItem>
               {pageNumbers[0] !== 1 && <PaginationEllipsis />}
             </PaginationItem>
-            {pageNumbers.map((pageNumber: number, index: number) => (
-              <PaginationItem key={index}>
-                <PaginationLink onClick={() => numberPage(pageNumber)}>{pageNumber}</PaginationLink>
+            {pageNumbers.map((pageNumber: number) => (
+              <PaginationItem key={pageNumber}>
+                <PaginationLink
+                  onClick={() => numberPage(pageNumber)}
+                  isActive={pageNumber === page}
+                  className={pageNumber === page
+                    ? `
+                      bg-sky-500 text-white
+                      hover:bg-sky-600
+                    `
+                    : ''}
+                >
+                  {pageNumber}
+                </PaginationLink>
               </PaginationItem>
             ))}
             <PaginationItem>
@@ -258,7 +272,10 @@ export default function EarthquakeInfoTable({ initialData, page, dev }: Earthqua
               )}
             </PaginationItem>
             <PaginationItem>
-              <PaginationNext onClick={nextPage} />
+              <PaginationNext
+                onClick={nextPage}
+                className={page === pageMax ? 'pointer-events-none opacity-50' : ''}
+              />
             </PaginationItem>
           </PaginationContent>
         </Pagination>
