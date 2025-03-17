@@ -9,7 +9,7 @@ import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 import { StationList, StationReport } from '@/modal/station';
 import { TremEew } from '@/modal/trem';
-import { findLocationByCode, formatTime, getIntensityClass, getLpgmClass, intensity_float_to_int, intensity_list } from '@/lib/utils';
+import { distance, findLocationByCode, formatTime, getIntensityClass, getLpgmClass, intensity_float_to_int, intensity_list } from '@/lib/utils';
 
 import {
   Table,
@@ -318,7 +318,7 @@ export default function EarthquakeData() {
                         {data.trigger}
                       </TableCell>
                       <TableCell className="border border-gray-300 text-center">
-                        {0}
+                        {earthquakeReport.time ? distance(data.eq.lat, data.eq.lon)(earthquakeReport.lat, earthquakeReport.lon).toFixed(1) : ''}
                       </TableCell>
                       <TableCell className="border border-gray-300 text-center">
                         {data.status == 1 ? 'TRUE' : ''}

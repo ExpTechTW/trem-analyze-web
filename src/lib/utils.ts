@@ -95,3 +95,23 @@ export function findPageNext(page: number, data: Array<EarthquakeInfo>, dev: boo
   const maxPage = Math.ceil(mathPageDataLength(data, dev) / 10);
   return page + 1 > maxPage ? maxPage : page + 1;
 }
+
+export function distance(latA: number, lngA: number): (latB: number, lngB: number) => number {
+  return function (latB: number, lngB: number): number {
+    const R = 6371.008;
+    const toRadians = (degree: number) => (degree * Math.PI) / 180;
+
+    const dLat = toRadians(latB - latA);
+    const dLng = toRadians(lngB - lngA);
+    const latARad = toRadians(latA);
+    const latBRad = toRadians(latB);
+
+    const a
+      = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+        + Math.cos(latARad) * Math.cos(latBRad)
+        * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
+  };
+}
