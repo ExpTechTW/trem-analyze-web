@@ -211,8 +211,8 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
                 </TableCell>
                 <TableCell className="border border-gray-300 text-center">{formatTime(data.eq.time)}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.eq.loc}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.eq.lat}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.eq.lon}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.eq.lat.toFixed(2)}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.eq.lon.toFixed(2)}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.eq.depth}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.eq.mag.toFixed(1)}</TableCell>
                 <TableCell className={`

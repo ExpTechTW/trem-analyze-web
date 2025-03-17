@@ -258,8 +258,8 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
                   {data.Cwa_id ? formatTime(findCwaEarthquake(data.Cwa_id)?.time ?? 0) : ''}
                 </TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Loc}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.Lat}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.Lon}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Lat.toFixed(2)}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{data.Lon.toFixed(2)}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Depth}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Mag.toFixed(1)}</TableCell>
                 <TableCell className={`
