@@ -50,7 +50,7 @@ export function intensity_float_to_int(i: number) {
 
 export function findMaxInt(list: EarthquakeReport['list']) {
   let maxInt = 0;
-  Object.entries(list).map(([id, data]) => {
+  Object.values(list).forEach((data) => {
     if (data.int > maxInt) maxInt = data.int;
   });
   return maxInt;
