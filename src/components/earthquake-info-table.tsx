@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
-import { findPageNext, findPageNumber, findPagePrevious, formatTime, getIntensityClass, getLpgmClass, intensity_list, mathPageDataLength, pagesEarthquakeQuantity } from '@/lib/utils';
+import { findPageNumber, formatTime, getIntensityClass, getLpgmClass, intensity_list, mathPageDataLength, pagesEarthquakeQuantity } from '@/lib/utils';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Select,
@@ -16,15 +16,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
-import {
   Table,
   TableBody,
   TableCaption,
@@ -33,6 +24,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+
+import { EnhancedPagination } from './enhanced-pagination';
 
 interface MonthData {
   'year-month': string;
@@ -72,30 +65,6 @@ export default function EarthquakeInfoTable({ initialData, page, dev }: Earthqua
 
   const openNewWindow = (id: string) => {
     router.push(`/info?id=${id}${dev ? '&dev=1' : ''}`);
-  };
-
-  const nextPage = () => {
-    const queryParams = new URLSearchParams();
-    queryParams.set('page', findPageNext(page, earthquakeInfo, dev).toString());
-    if (selectedMonth) queryParams.set('month', selectedMonth);
-    if (dev) queryParams.set('dev', '1');
-    router.push(`?${queryParams.toString()}`);
-  };
-
-  const previousPage = () => {
-    const queryParams = new URLSearchParams();
-    queryParams.set('page', findPagePrevious(page).toString());
-    if (selectedMonth) queryParams.set('month', selectedMonth);
-    if (dev) queryParams.set('dev', '1');
-    router.push(`?${queryParams.toString()}`);
-  };
-
-  const numberPage = (id: number) => {
-    const queryParams = new URLSearchParams();
-    queryParams.set('page', id.toString());
-    if (selectedMonth) queryParams.set('month', selectedMonth);
-    if (dev) queryParams.set('dev', '1');
-    router.push(`?${queryParams.toString()}`);
   };
 
   const devModButton = () => {
@@ -323,46 +292,18 @@ export default function EarthquakeInfoTable({ initialData, page, dev }: Earthqua
           <TableCaption className="pb-4">Taiwan Real-time Earthquake Monitoring｜2025｜ExpTech Studio</TableCaption>
         </Table>
 
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={previousPage}
-                className={page === 1 ? 'pointer-events-none opacity-50' : ''}
-              />
-            </PaginationItem>
-            <PaginationItem>
-              {pageNumbers[0] !== 1 && <PaginationEllipsis />}
-            </PaginationItem>
-            {pageNumbers.map((pageNumber: number) => (
-              <PaginationItem key={pageNumber}>
-                <PaginationLink
-                  onClick={() => numberPage(pageNumber)}
-                  isActive={pageNumber === page}
-                  className={pageNumber === page
-                    ? `
-                      bg-sky-500 text-white
-                      hover:bg-sky-600
-                    `
-                    : ''}
-                >
-                  {pageNumber}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-            <PaginationItem>
-              {page <= pageNumbers[pageNumbers.length - 1] - 2 && pageNumbers[pageNumbers.length - 1] !== pageMax && (
-                <PaginationEllipsis />
-              )}
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext
-                onClick={nextPage}
-                className={page === pageMax ? 'pointer-events-none opacity-50' : ''}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        <EnhancedPagination
+          currentPage={page}
+          pageMax={pageMax}
+          pageNumbers={pageNumbers}
+          onPageChange={(newPage) => {
+            const queryParams = new URLSearchParams();
+            queryParams.set('page', newPage.toString());
+            if (selectedMonth && selectedMonth !== 'all') queryParams.set('month', selectedMonth);
+            if (dev) queryParams.set('dev', '1');
+            router.push(`?${queryParams.toString()}`);
+          }}
+        />
       </div>
     </div>
   );
