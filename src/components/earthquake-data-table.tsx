@@ -1,7 +1,7 @@
 'use client';
 
 import { Undo2 } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Progress } from '@/components/ui/progress';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -29,7 +29,10 @@ function getStationInfoById(station: StationList, id: string) {
 }
 
 export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
+  const params = new URLSearchParams();
+
   const {
     earthquakeInfo,
     earthquakeReport,
@@ -39,11 +42,15 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
     stationReport,
   } = initialData;
 
+  if (dev) params.set('dev', '1');
+  if (searchParams.get('page')) params.set('page', searchParams.get('page') || '');
+  if (searchParams.get('month')) params.set('month', searchParams.get('month') || '');
+
   return (
     <div>
       <div className="flex cursor-pointer items-center justify-start pt-2 pl-2">
         <a
-          href={`../?dev=${dev ? '1' : ''}${searchParams.get('page') ? `&page=${searchParams.get('page')}` : ''}${searchParams.get('month') ? `&month=${searchParams.get('month')}` : ''}`}
+          onClick={() => void router.push(`/?${params.toString()}`)}
           className={`
             flex items-center space-x-2 rounded-md bg-sky-400 px-3 py-1.5
             shadow-sm transition
