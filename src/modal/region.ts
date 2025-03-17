@@ -6,10 +6,6 @@ interface Town {
   area: string;
 }
 
-interface City {
-  [districtName: string]: Town;
-}
+type City = Record<string, Town>;
 
-export interface Region {
-  [cityName: string]: City;
-}
+export type Region = Record<string, City>;

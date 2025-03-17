@@ -16,8 +16,8 @@ async function getData(month?: string) {
       }),
     ]);
 
-    const earthquakeInfo = await earthquakeInfoRes.json() as Array<EarthquakeInfo>;
-    const earthquakeReport = await earthquakeReportRes.json() as Array<EarthquakeReport>;
+    const earthquakeInfo = await earthquakeInfoRes.json() as EarthquakeInfo[];
+    const earthquakeReport = await earthquakeReportRes.json() as EarthquakeReport[];
 
     return {
       earthquakeInfo,

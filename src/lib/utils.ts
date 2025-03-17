@@ -1,14 +1,14 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import { EarthquakeInfo } from '@/modal/earthquake';
+import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 
-export function mathPageDataLength(data: Array<EarthquakeInfo>, dev: boolean) {
+export function mathPageDataLength(data: EarthquakeInfo[], dev: boolean) {
   return dev ? data.length : data.reduce((count, item) => count + (item.Alarm ? 1 : 0), 0);
 }
 
-export function findDataAlarm(data: Array<EarthquakeInfo>, dev: boolean): Array<EarthquakeInfo> {
+export function findDataAlarm(data: EarthquakeInfo[], dev: boolean): EarthquakeInfo[] {
   if (dev) return data;
   return data.filter((item) => item.Alarm);
 }
@@ -46,6 +46,14 @@ export function findLocationByCode(region: Region, code: number): string {
 
 export function intensity_float_to_int(i: number) {
   return i < 0 ? 0 : i < 4.5 ? Math.round(i) : i < 5 ? 5 : i < 5.5 ? 6 : i < 6 ? 7 : i < 6.5 ? 8 : 9;
+}
+
+export function findMaxInt(list: EarthquakeReport['list']) {
+  let maxInt = 0;
+  Object.values(list).forEach((data) => {
+    if (data.int > maxInt) maxInt = data.int;
+  });
+  return maxInt;
 }
 
 export function getIntensityClass(intensity: number) {
@@ -90,7 +98,7 @@ export function findPagePrevious(page: number) {
   return page - 1 <= 0 ? 1 : page - 1;
 }
 
-export function findPageNext(page: number, data: Array<EarthquakeInfo>, dev: boolean) {
+export function findPageNext(page: number, data: EarthquakeInfo[], dev: boolean) {
   const maxPage = Math.ceil(mathPageDataLength(data, dev) / 100);
   return page + 1 > maxPage ? maxPage : page + 1;
 }

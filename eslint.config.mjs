@@ -1,21 +1,27 @@
-/* eslint-disable import-x/no-named-as-default-member */
-import js from '@eslint/js';
-import ts from 'typescript-eslint';
-import stylistic from '@stylistic/eslint-plugin';
-import next from '@next/eslint-plugin-next';
-import tailwind from 'eslint-plugin-readable-tailwind';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+import { FlatCompat } from '@eslint/eslintrc';
 import importX from 'eslint-plugin-import-x';
+import js from '@eslint/js';
+import style from '@stylistic/eslint-plugin';
+import tailwind from 'eslint-plugin-readable-tailwind';
+import ts from 'typescript-eslint';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
 
 export default ts.config(
-  {
-    ignores: ['eslint.config.mjs'],
-  },
   js.configs.recommended,
   ...ts.configs.recommendedTypeChecked,
-  stylistic.configs.customize({
+  ...ts.configs.stylisticTypeChecked,
+  style.configs.customize({
     arrowParens: true,
     semi: true,
-    jsx: true,
     flat: true,
   }),
   importX.flatConfigs.recommended,
@@ -37,29 +43,8 @@ export default ts.config(
           'newlines-between': 'always',
         },
       ],
-      'sort-imports': [
-        'warn', 
-        {
-          allowSeparatedGroups: true,
-        },
-      ],
-    },
-  },
-  {
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-  },
-  {
-    plugins: {
-      '@next/next': next,
-    },
-    rules: {
-      ...next.configs.recommended.rules,
-      ...next.configs['core-web-vitals'].rules,
+      "sort-imports": ["error", { "ignoreDeclarationSort": true }],
+      '@typescript-eslint/prefer-nullish-coalescing': 'off',
     },
   },
   {
@@ -84,4 +69,13 @@ export default ts.config(
       ],
     },
   },
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  ...compat.extends('next/core-web-vitals', 'next/typescript'),
 );
