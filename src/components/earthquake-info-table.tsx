@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+'use client';
+
+import { useRouter } from 'next/navigation';
 
 import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { findPageNext, findPageNumber, findPagePrevious, formatTime, getIntensityClass, getLpgmClass, intensity_list, mathPageDataLength, pagesEarthquakeQuantity } from '@/lib/utils';
@@ -24,70 +25,53 @@ import {
 } from './ui/table';
 import { Checkbox } from './ui/checkbox';
 
-export default function EarthquakeInfoTable() {
-  const [earthquakeInfo, setEarthquakeInfo] = useState<Array<EarthquakeInfo>>([]);
-  const [earthquakeReport, setEarthquakeReport] = useState<Array<EarthquakeReport>>([]);
-  const searchParams = useSearchParams();
+interface EarthquakeInfoTableProps {
+  initialData: {
+    earthquakeInfo: Array<EarthquakeInfo>;
+    earthquakeReport: Array<EarthquakeReport>;
+  };
+  page: number;
+  dev: boolean;
+}
 
+export default function EarthquakeInfoTable({ initialData, page, dev }: EarthquakeInfoTableProps) {
   const router = useRouter();
+  const { earthquakeInfo, earthquakeReport } = initialData;
 
   const openNewWindow = (id: string) => {
-    void router.push(`/info?id=${id}${searchParams.get('dev') ? '&dev=1' : ''}`);
+    router.push(`/info?id=${id}${dev ? '&dev=1' : ''}`);
   };
 
   const nextPage = () => {
-    void router.push(`?page=${findPageNext(Number(searchParams.get('page')), earthquakeInfo, Boolean(searchParams.get('dev')))}${searchParams.get('dev') ? '&dev=1' : ''}`);
+    router.push(`?page=${findPageNext(page, earthquakeInfo, dev)}${dev ? '&dev=1' : ''}`);
   };
 
   const previousPage = () => {
-    void router.push(`?page=${findPagePrevious(Number(searchParams.get('page')))}${searchParams.get('dev') ? '&dev=1' : ''}`);
+    router.push(`?page=${findPagePrevious(page)}${dev ? '&dev=1' : ''}`);
   };
 
   const numberPage = (id: number) => {
-    void router.push(`?page=${id}${searchParams.get('dev') ? '&dev=1' : ''}`);
+    router.push(`?page=${id}${dev ? '&dev=1' : ''}`);
   };
 
   const devModButton = () => {
-    const dev = searchParams.get('dev') ? false : true;
-    void router.push(`?page=${Number(searchParams.get('page'))}${dev ? '&dev=1' : ''}`);
+    router.push(`?page=${page}${!dev ? '&dev=1' : ''}`);
   };
 
-  const pageNumbers = findPageNumber(
-    Number(searchParams.get('page')),
-    earthquakeInfo,
-    Boolean(searchParams.get('dev')),
-  );
-
-  const pageMax = Math.ceil(mathPageDataLength(earthquakeInfo, Boolean(searchParams.get('dev'))) / 10);
-
-  useEffect(() => {
-    const fetchEarthquakeReport = async () => {
-      const res = await fetch(`https://api-1.exptech.dev/api/v2/eq/report?limit=50&key=`);
-      const ans = await res.json() as Array<EarthquakeReport>;
-      setEarthquakeReport(ans);
-    };
-    void fetchEarthquakeReport();
-  }, []);
-
-  useEffect(() => {
-    const fetchEarthquakeInfo = async () => {
-      const res = await fetch(`https://api-1.exptech.dev/api/v1/trem/list?key=`);
-      const ans = await res.json() as Array<EarthquakeInfo>;
-      setEarthquakeInfo(ans);
-    };
-    void fetchEarthquakeInfo();
-  }, []);
+  const pageNumbers = findPageNumber(page, earthquakeInfo, dev);
+  const pageMax = Math.ceil(mathPageDataLength(earthquakeInfo, dev) / 10);
 
   const findCwaEarthquake = (id: string) => {
-    return earthquakeReport.find((data) => data.id == id);
+    return earthquakeReport.find((data) => data.id === id);
   };
+
   return (
     <div>
       <div className="p-4 text-center text-3xl font-bold">
         TREM EEW
       </div>
       <div className="py-2 text-center font-bold">
-        <Checkbox id="devBotton" onClick={() => devModButton()} />
+        <Checkbox id="devBotton" checked={dev} onClick={devModButton} />
         <label htmlFor="devBotton">Dev Mode</label>
       </div>
       <div className="pr-8 pl-8">
@@ -121,72 +105,84 @@ export default function EarthquakeInfoTable() {
             </TableRow>
 
             <TableRow className="bg-gray-300">
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 報數
               </TableHead>
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 檢知時刻
               </TableHead>
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 發震時刻(CWA)
               </TableHead>
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 震央地名
               </TableHead>
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 北緯
               </TableHead>
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 東經
               </TableHead>
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 深度
               </TableHead>
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 規模
               </TableHead>
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 預估最大震度
               </TableHead>
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 實測最大震度(CWA)
               </TableHead>
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 實測最大長周期
                 <br />
                 地震動階級
               </TableHead>
-              <TableHead
-                className="text-l border border-gray-500 text-center font-bold"
+              <TableHead className={`
+                text-l border border-gray-500 text-center font-bold
+              `}
               >
                 RTS
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {pagesEarthquakeQuantity(Number(searchParams.get('page')), earthquakeInfo, Boolean(searchParams.get('dev'))).map((data, index) => (
+            {pagesEarthquakeQuantity(page, earthquakeInfo, dev).map((data, index) => (
               <TableRow key={data.ID}>
                 <TableCell className="border border-gray-300 text-center">{index + 1}</TableCell>
                 <TableCell
@@ -204,7 +200,9 @@ export default function EarthquakeInfoTable() {
                 <TableCell className="border border-gray-300 text-center">{data.Source}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Serial}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{formatTime(Number(data.ID))}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{data.Cwa_id ? formatTime(findCwaEarthquake(data.Cwa_id)?.time ?? 0) : ''}</TableCell>
+                <TableCell className="border border-gray-300 text-center">
+                  {data.Cwa_id ? formatTime(findCwaEarthquake(data.Cwa_id)?.time ?? 0) : ''}
+                </TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Loc}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Lat}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Lon}</TableCell>
@@ -217,10 +215,13 @@ export default function EarthquakeInfoTable() {
                 >
                   {intensity_list[data.Max]}
                 </TableCell>
-                <TableCell className={`
-                  border border-gray-300 text-center
-                  ${getIntensityClass(data.Cwa_id ? findCwaEarthquake(data.Cwa_id)?.int ?? 0 : 0)}
-                `}
+                <TableCell
+                  className={`
+                    border border-gray-300 text-center
+                    ${
+              getIntensityClass(data.Cwa_id ? findCwaEarthquake(data.Cwa_id)?.int ?? 0 : 0)
+              }
+                  `}
                 >
                   {data.Cwa_id ? intensity_list[findCwaEarthquake(data.Cwa_id)?.int ?? 0] : ''}
                 </TableCell>
@@ -241,21 +242,23 @@ export default function EarthquakeInfoTable() {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious onClick={() => previousPage()} />
+              <PaginationPrevious onClick={previousPage} />
             </PaginationItem>
             <PaginationItem>
               {pageNumbers[0] !== 1 && <PaginationEllipsis />}
             </PaginationItem>
-            {findPageNumber(Number(searchParams.get('page')), earthquakeInfo, Boolean(searchParams.get('dev'))).map((pageNumber: number, index: number) => (
+            {pageNumbers.map((pageNumber: number, index: number) => (
               <PaginationItem key={index}>
                 <PaginationLink onClick={() => numberPage(pageNumber)}>{pageNumber}</PaginationLink>
               </PaginationItem>
             ))}
             <PaginationItem>
-              {((Number(searchParams.get('page')) <= pageNumbers[pageNumbers.length - 1] - 2) && (pageNumbers[pageNumbers.length - 1] != pageMax)) && <PaginationEllipsis />}
+              {page <= pageNumbers[pageNumbers.length - 1] - 2 && pageNumbers[pageNumbers.length - 1] !== pageMax && (
+                <PaginationEllipsis />
+              )}
             </PaginationItem>
             <PaginationItem>
-              <PaginationNext onClick={() => nextPage()} />
+              <PaginationNext onClick={nextPage} />
             </PaginationItem>
           </PaginationContent>
         </Pagination>
