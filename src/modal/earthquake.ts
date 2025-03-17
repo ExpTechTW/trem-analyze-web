@@ -6,6 +6,11 @@ export interface EarthquakeReport {
   loc?: string;
   mag: number;
   time: number;
+  list: {
+    lat: number;
+    lon: number;
+    int: number;
+  };
   int: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   trem: number;
   md5: string;
