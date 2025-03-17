@@ -9,7 +9,7 @@ import { EarthquakeInfo, EarthquakeReport } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 import { StationList, StationReport } from '@/modal/station';
 import { TremEew } from '@/modal/trem';
-import { distance, findLocationByCode, formatTime, getIntensityClass, getLpgmClass, intensity_float_to_int, intensity_list } from '@/lib/utils';
+import { distance, findLocationByCode, findMaxInt, formatTime, getIntensityClass, getLpgmClass, intensity_float_to_int, intensity_list } from '@/lib/utils';
 
 interface EarthquakeDataProps {
   initialData: {
@@ -17,15 +17,23 @@ interface EarthquakeDataProps {
     earthquakeReport: EarthquakeReport;
     region: Region;
     station: StationList;
-    tremEew: Array<TremEew>;
-    stationReport: Array<StationReport>;
+    tremEew: TremEew[];
+    stationReport: StationReport[];
   };
   dev: boolean;
 }
 
 function getStationInfoById(station: StationList, id: string) {
   if (!station || !id) return null;
-  return station[id] || null;
+  return station[id] ?? null;
+}
+
+function getLocMatch(text: string) {
+  const match = /\(位於(.*?)\)/.exec(text);
+  if (match) {
+    return match[1];
+  }
+  return '';
 }
 
 export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps) {
@@ -43,12 +51,12 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
   } = initialData;
 
   if (dev) params.set('dev', '1');
-  if (searchParams.get('page')) params.set('page', searchParams.get('page') || '');
-  if (searchParams.get('month')) params.set('month', searchParams.get('month') || '');
+  if (searchParams.get('page')) params.set('page', searchParams.get('page') ?? '');
+  if (searchParams.get('month')) params.set('month', searchParams.get('month') ?? '');
 
   return (
     <div>
-      <div className="flex cursor-pointer items-center justify-start pt-2 pl-2">
+      <div className="flex cursor-pointer items-center justify-start pl-2 pt-2">
         <a
           onClick={() => void router.push(`/?${params.toString()}`)}
           className={`
@@ -82,16 +90,130 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
         </div>
       </div>
 
+      {earthquakeInfo.Cwa_id && (
+        <div className="mx-8 my-3">
+          <Progress value={100} className="h-1" />
+        </div>
+      )}
+
+      {earthquakeInfo.Cwa_id && (
+        <div className="p-4 text-center text-3xl font-bold">CWA 地震報告</div>
+      )}
+
+      {earthquakeInfo.Cwa_id && (
+        <div className="p-8">
+          <Table className="w-full border-collapse border border-gray-300">
+            <TableHeader>
+              <TableRow className={`
+                bg-primary
+                hover:bg-primary
+              `}
+              >
+                <TableHead className={`
+                  text-l border border-gray-500 text-center font-bold
+                `}
+                >
+                  發生時刻
+                </TableHead>
+                <TableHead className={`
+                  text-l border border-gray-500 text-center font-bold
+                `}
+                >
+                  震央地名
+                </TableHead>
+                <TableHead className={`
+                  text-l border border-gray-500 text-center font-bold
+                `}
+                >
+                  北緯
+                </TableHead>
+                <TableHead className={`
+                  text-l border border-gray-500 text-center font-bold
+                `}
+                >
+                  東經
+                </TableHead>
+                <TableHead className={`
+                  text-l border border-gray-500 text-center font-bold
+                `}
+                >
+                  深度
+                </TableHead>
+                <TableHead className={`
+                  text-l border border-gray-500 text-center font-bold
+                `}
+                >
+                  規模
+                </TableHead>
+                <TableHead className={`
+                  text-l border border-gray-500 text-center font-bold
+                `}
+                >
+                  實測最大震度
+                </TableHead>
+                <TableHead className={`
+                  text-l border border-gray-500 text-center font-bold
+                `}
+                >
+                  CWA地震報告
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow key="cwa">
+                <TableCell className="border border-gray-300 text-center">{formatTime(earthquakeReport.time)}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{getLocMatch(earthquakeReport.loc ?? '')}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{earthquakeReport.lat}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{earthquakeReport.lon}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{earthquakeReport.depth}</TableCell>
+                <TableCell className="border border-gray-300 text-center">
+                  M
+                  {earthquakeReport.mag.toFixed(1)}
+                </TableCell>
+                <TableCell className={`
+                  border border-gray-300 text-center
+                  ${getIntensityClass(findMaxInt(earthquakeReport.list))}
+                `}
+                >
+                  {findMaxInt(earthquakeReport.list)}
+                </TableCell>
+                <TableCell className="border border-gray-300 text-center">
+                  <a
+                    href={`https://www.cwa.gov.tw/V8/C/E/EQ/EQ${earthquakeInfo.Cwa_id.split('-')[0]}-${earthquakeInfo.Cwa_id.split('-')[2]}-${earthquakeInfo.Cwa_id.split('-')[3]}.html`}
+                    className={`
+                      text-primary
+                      hover:underline
+                    `}
+                  >
+                    點擊前往
+                  </a>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+      )}
+
+      {/* {earthquakeInfo.Cwa_id && (
+        <div className="mx-8 my-3">
+          <Progress value={100} className="h-1" />
+        </div>
+      )} */}
+
       <div className="mx-8 my-3">
         <Progress value={100} className="h-1" />
       </div>
 
       <div className="p-4 text-center text-3xl font-bold">TREM EEW</div>
 
-      <div className="pr-8 pb-8 pl-8">
+      <div className="pb-8 pl-8 pr-8">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
-            <TableRow className="bg-primary hover:bg-primary">
+            <TableRow className={`
+              bg-primary
+              hover:bg-primary
+            `}
+            >
               <TableHead
                 rowSpan={2}
                 className="text-l border border-gray-500 text-center font-bold"
@@ -124,7 +246,11 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
               </TableHead>
             </TableRow>
 
-            <TableRow className="bg-primary hover:bg-primary">
+            <TableRow className={`
+              bg-primary
+              hover:bg-primary
+            `}
+            >
               <TableHead className={`
                 text-l border border-gray-500 text-center font-bold
               `}
@@ -249,10 +375,14 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
 
       <div className="p-4 text-center text-3xl font-bold">TREM 測站紀錄數據</div>
 
-      <div className="pr-8 pb-8 pl-8">
+      <div className="pb-8 pl-8 pr-8">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
-            <TableRow className="bg-primary hover:bg-primary">
+            <TableRow className={`
+              bg-primary
+              hover:bg-primary
+            `}
+            >
               <TableHead
                 rowSpan={3}
                 className="text-l border border-gray-500 text-center font-bold"
@@ -279,7 +409,11 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
               </TableHead>
             </TableRow>
 
-            <TableRow className="bg-primary hover:bg-primary">
+            <TableRow className={`
+              bg-primary
+              hover:bg-primary
+            `}
+            >
               <TableHead
                 colSpan={3}
                 className="text-l border border-gray-500 text-center font-bold"
@@ -311,7 +445,11 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
               </TableHead>
             </TableRow>
 
-            <TableRow className="bg-primary hover:bg-primary">
+            <TableRow className={`
+              bg-primary
+              hover:bg-primary
+            `}
+            >
               <TableHead className={`
                 text-l border border-gray-500 text-center font-bold
               `}
