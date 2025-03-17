@@ -122,7 +122,6 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
           </Select>
         </div>
       </div>
-      <div className="mb-4 mt-4 flex items-center justify-center gap-6"></div>
       <div className="pl-8 pr-8">
         <Table className="w-full border-collapse border border-gray-500">
           <TableHeader>
