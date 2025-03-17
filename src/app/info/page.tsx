@@ -20,7 +20,7 @@ async function getData(id: string) {
     ]);
 
     const earthquakeInfo = await earthquakeInfoRes.json() as EarthquakeInfo;
-    const tremEew = await tremEewRes.json() as Array<TremEew>;
+    const tremEew = await tremEewRes.json() as TremEew[];
     const region = await regionRes.json() as Region;
     const station = await stationRes.json() as StationList;
 
@@ -36,7 +36,7 @@ async function getData(id: string) {
       body: JSON.stringify({ list: JSON.parse(earthquakeInfo.List) as object }),
       next: { revalidate: 30 },
     });
-    const stationReport = await stationReportRes.json() as Array<StationReport>;
+    const stationReport = await stationReportRes.json() as StationReport[];
 
     return {
       earthquakeInfo,

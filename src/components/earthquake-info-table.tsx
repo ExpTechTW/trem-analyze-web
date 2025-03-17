@@ -34,8 +34,8 @@ interface MonthData {
 
 interface EarthquakeInfoTableProps {
   initialData: {
-    earthquakeInfo: Array<EarthquakeInfo>;
-    earthquakeReport: Array<EarthquakeReport>;
+    earthquakeInfo: EarthquakeInfo[];
+    earthquakeReport: EarthquakeReport[];
   };
   page: number;
   dev: boolean;
@@ -94,7 +94,7 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
 
   return (
     <div>
-      <div className="mt-4 mb-4 flex items-center justify-center gap-6">
+      <div className="mb-4 mt-4 flex items-center justify-center gap-6">
         <div className="flex items-center gap-2">
           <Checkbox id="devBotton" checked={dev} onClick={devModButton} />
           <label htmlFor="devBotton">Dev Mode</label>
@@ -124,10 +124,14 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
         </div>
       </div>
 
-      <div className="pr-8 pl-8">
+      <div className="pl-8 pr-8">
         <Table className="w-full border-collapse border border-gray-500">
           <TableHeader>
-            <TableRow className="bg-primary hover:bg-primary">
+            <TableRow className={`
+              bg-primary
+              hover:bg-primary
+            `}
+            >
               <TableHead
                 rowSpan={2}
                 className="text-l border border-gray-500 text-center font-bold"
@@ -154,7 +158,11 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
               </TableHead>
             </TableRow>
 
-            <TableRow className="bg-primary hover:bg-primary">
+            <TableRow className={`
+              bg-primary
+              hover:bg-primary
+            `}
+            >
               <TableHead className={`
                 text-l border border-gray-500 text-center font-bold
               `}

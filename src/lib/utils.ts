@@ -4,11 +4,11 @@ import { twMerge } from 'tailwind-merge';
 import { EarthquakeInfo } from '@/modal/earthquake';
 import { Region } from '@/modal/region';
 
-export function mathPageDataLength(data: Array<EarthquakeInfo>, dev: boolean) {
+export function mathPageDataLength(data: EarthquakeInfo[], dev: boolean) {
   return dev ? data.length : data.reduce((count, item) => count + (item.Alarm ? 1 : 0), 0);
 }
 
-export function findDataAlarm(data: Array<EarthquakeInfo>, dev: boolean): Array<EarthquakeInfo> {
+export function findDataAlarm(data: EarthquakeInfo[], dev: boolean): EarthquakeInfo[] {
   if (dev) return data;
   return data.filter((item) => item.Alarm);
 }
@@ -97,7 +97,7 @@ export function findPagePrevious(page: number) {
   return page - 1 <= 0 ? 1 : page - 1;
 }
 
-export function findPageNext(page: number, data: Array<EarthquakeInfo>, dev: boolean) {
+export function findPageNext(page: number, data: EarthquakeInfo[], dev: boolean) {
   const maxPage = Math.ceil(mathPageDataLength(data, dev) / 100);
   return page + 1 > maxPage ? maxPage : page + 1;
 }

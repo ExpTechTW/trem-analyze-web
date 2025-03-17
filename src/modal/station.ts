@@ -26,10 +26,8 @@ interface StationInfo {
 
 interface Station {
   net: 'SE-Net' | 'MS-Net';
-  info: Array<StationInfo>;
+  info: StationInfo[];
   work: boolean;
 }
 
-export interface StationList {
-  [id: string]: Station;
-}
+export type StationList = Record<string, Station>;
