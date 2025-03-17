@@ -38,7 +38,7 @@ export function EnhancedPagination({ currentPage, pageMax, pageNumbers, onPageCh
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4">
+    <div className="mb-4 flex flex-col items-center space-y-4">
       <div className="text-sm text-gray-500">
         第
         {' '}

@@ -8,11 +8,7 @@ import importX from 'eslint-plugin-import-x';
 
 export default ts.config(
   {
-    ignores: [
-      'eslint.config.mjs',
-      "src/components/ui/**",
-      "src/hooks/**"
-    ],
+    ignores: ['eslint.config.mjs'],
   },
   js.configs.recommended,
   ...ts.configs.recommendedTypeChecked,
@@ -42,7 +38,7 @@ export default ts.config(
         },
       ],
       'sort-imports': [
-        'warn',
+        'warn', 
         {
           allowSeparatedGroups: true,
         },
@@ -88,31 +84,4 @@ export default ts.config(
       ],
     },
   },
-  {
-    files: ["electron/**/*.js"],
-    rules: {
-      "@typescript-eslint/no-require-imports": "off",
-      "@typescript-eslint/no-var-requires": "off",
-      "@typescript-eslint/no-unsafe-call": "off",
-      "@typescript-eslint/no-unsafe-return": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
-      "@typescript-eslint/no-unsafe-argument": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/no-floating-promises": "off",
-      "no-undef": "off",
-
-      "semi": ["error", "always"],
-      "quotes": ["error", "single"],
-      "indent": ["error", 2],
-
-      "no-trailing-spaces": "error",
-      "no-multiple-empty-lines": ["error", { "max": 1 }],
-
-      "no-unused-vars": "warn",
-      "no-var": "error",
-      "prefer-const": "error",
-
-      "arrow-spacing": "error",
-    }
-  }
 );
