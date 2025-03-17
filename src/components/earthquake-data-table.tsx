@@ -129,15 +129,15 @@ export default function EarthquakeData() {
       <div className="text-l flex justify-center divide-x-1 py-8 text-center">
         <div className="px-8">
           <p className="font-bold">EventID</p>
-          <p>測試</p>
+          <p>{earthquakeReport ? formatTime(Number(earthquakeInfo?.ID)).replaceAll('/', '').replaceAll(':', '').replace(' ', '') : '載入中'}</p>
         </div>
         <div className="px-8">
           <p className="font-bold">發表單位</p>
-          <p>測試</p>
+          <p>{earthquakeReport ? `TREM(${earthquakeInfo?.Source})` : '載入中'}</p>
         </div>
         <div className="px-8">
           <p className="font-bold">檢知時刻</p>
-          <p>測試</p>
+          <p>{earthquakeReport ? formatTime(Number(earthquakeInfo?.ID)) : '載入中'}</p>
         </div>
       </div>
       <div className="mx-8 my-3">
