@@ -288,7 +288,7 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
                   ${getLpgmClass(data.Lpgm)}
                 `}
                 >
-                  {data.Lpgm}
+                  {data.Lpgm > 0 ? data.Lpgm : ''}
                 </TableCell>
                 <TableCell className="border border-gray-300 text-center">{data.Alarm ? 'TRUE' : ''}</TableCell>
               </TableRow>
