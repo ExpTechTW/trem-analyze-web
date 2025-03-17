@@ -101,7 +101,7 @@ export default function EarthquakeInfoTable({ initialData, page, dev }: Earthqua
   const devModButton = () => {
     const queryParams = new URLSearchParams();
     queryParams.set('page', page.toString());
-    if (selectedMonth) queryParams.set('month', selectedMonth);
+    if (selectedMonth && selectedMonth !== 'all') queryParams.set('month', selectedMonth);
     if (!dev) queryParams.set('dev', '1');
     router.push(`?${queryParams.toString()}`);
   };
@@ -142,7 +142,7 @@ export default function EarthquakeInfoTable({ initialData, page, dev }: Earthqua
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>選擇月份</SelectLabel>
-                <SelectItem value="all">最近 100 筆</SelectItem>
+                <SelectItem value="all">近 100 次檢知</SelectItem>
                 {monthList.map((month) => (
                   <SelectItem key={month['year-month']} value={month['year-month']}>
                     {month['year-month']}
