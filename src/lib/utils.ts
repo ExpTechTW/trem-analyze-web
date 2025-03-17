@@ -62,11 +62,11 @@ export function pagesEarthquakeQuantity(page: number | null, data: EarthquakeInf
   const pageNumber = Math.max(page ?? 1, 1);
   const maxPage = Math.ceil(mathPageDataLength(data, dev) / 100);
   const currentPage = Math.min(pageNumber, maxPage);
-  const startIndex = (currentPage - 1) * 10;
+  const startIndex = (currentPage - 1) * 100;
 
   const filteredData = dev ? data : findDataAlarm(data, dev);
 
-  return filteredData.slice(startIndex, startIndex + 10);
+  return filteredData.slice(startIndex, startIndex + 100);
 }
 
 export function findPageNumber(page: number | null, data: EarthquakeInfo[], dev: boolean): number[] {
