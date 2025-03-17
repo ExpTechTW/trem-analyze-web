@@ -123,10 +123,6 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
         </div>
       </div>
       <div className="mb-4 mt-4 flex items-center justify-center gap-6"></div>
-      <div className="flex items-center gap-2">
-        <Checkbox id="devBotton" checked={dev} onClick={devModButton} />
-        <label htmlFor="devBotton">Dev Mode</label>
-      </div>
       <div className="pl-8 pr-8">
         <Table className="w-full border-collapse border border-gray-500">
           <TableHeader>
