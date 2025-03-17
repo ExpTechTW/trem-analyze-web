@@ -28,6 +28,14 @@ function getStationInfoById(station: StationList, id: string) {
   return station[id] ?? null;
 }
 
+function getLocMatch(text: string) {
+  const match = /\(位於(.*?)\)/.exec(text);
+  if (match) {
+    return match[1];
+  }
+  return '';
+}
+
 export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -154,7 +162,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
             <TableBody>
               <TableRow key="cwa">
                 <TableCell className="border border-gray-300 text-center">{formatTime(earthquakeReport.time)}</TableCell>
-                <TableCell className="border border-gray-300 text-center">{earthquakeReport.loc?.match(/\(位於(.*?)\)/)}</TableCell>
+                <TableCell className="border border-gray-300 text-center">{getLocMatch(earthquakeReport.loc ?? '')}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{earthquakeReport.lat}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{earthquakeReport.lon}</TableCell>
                 <TableCell className="border border-gray-300 text-center">{earthquakeReport.depth}</TableCell>
