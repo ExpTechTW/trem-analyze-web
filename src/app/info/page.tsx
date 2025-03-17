@@ -75,6 +75,3 @@ export default async function InfoPage({ searchParams }: InfoPageProps) {
     />
   );
 }
-
-export const dynamic = 'force-dynamic';
-export const revalidate = 30;

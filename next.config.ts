@@ -4,7 +4,6 @@ const isProduction = process.env.NODE_ENV === 'production';
 const basePath = isProduction ? '/analyze' : '';
 
 const nextConfig: NextConfig = {
-  output: 'export',
   basePath: basePath,
   assetPrefix: basePath,
   images: {
