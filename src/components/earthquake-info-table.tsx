@@ -94,20 +94,18 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
 
   return (
     <div>
-      <div className="mb-4 mt-4 flex items-center justify-center gap-6">
-        <div className="flex items-center gap-2">
-          <Checkbox id="devBotton" checked={dev} onClick={devModButton} />
-          <label htmlFor="devBotton">Dev Mode</label>
-        </div>
-        <div className="w-64">
+      <div className="mb-4 mt-4 flex w-full justify-center">
+        <div className="w-48">
           <Select value={selectedMonth} onValueChange={handleMonthChange}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="選擇月份" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>選擇月份</SelectLabel>
-                <SelectItem value="all">近 100 次檢知</SelectItem>
+                <SelectItem value="all">
+                  近 100 次檢知
+                </SelectItem>
                 {monthList.map((month) => (
                   <SelectItem key={month['year-month']} value={month['year-month']}>
                     {month['year-month']}
@@ -120,6 +118,13 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
               </SelectGroup>
             </SelectContent>
           </Select>
+        </div>
+      </div>
+
+      <div className="mb-4 mt-4 flex items-center justify-center gap-6">
+        <div className="flex items-center gap-2">
+          <Checkbox id="devBotton" checked={dev} onClick={devModButton} />
+          <label htmlFor="devBotton">Dev Mode</label>
         </div>
       </div>
       <div className="pl-8 pr-8">
