@@ -4,6 +4,7 @@ import { TriangleAlert } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -26,16 +27,15 @@ export function DialogDataMessage() {
             <TriangleAlert className="h-6 w-6 text-yellow-500" />
             注意
           </DialogTitle>
-          <div className={`
+          <DialogDescription className={`
             text-center text-base
-            sm:text-l
+            sm:text-lg
           `}
           >
-            <p className="">
-              實際結果請依中央氣象署發布之內容為準
-            </p>
-            <p className="fond-bold">資料來源均為 TREM !!!</p>
-          </div>
+            <span>實際結果請依中央氣象署發布之內容為準</span>
+            <span className="font-bold">資料來源均為 TREM !!!</span>
+
+          </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
@@ -60,14 +60,14 @@ export function DialogInfoMessage() {
             <TriangleAlert className="h-6 w-6 text-yellow-500" />
             注意
           </DialogTitle>
-          <div className={`
+          <DialogDescription className={`
             text-center text-base
-            sm:text-l
+            sm:text-lg
           `}
           >
-            <p>實際結果請依 中央氣象署 發布之內容為準</p>
-            <p className="fond-bold">若未特別註記 資料來源均為 TREM</p>
-          </div>
+            <span>實際結果請依 中央氣象署 發布之內容為準</span>
+            <span className="font-bold">若未特別註記 資料來源均為 TREM</span>
+          </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
