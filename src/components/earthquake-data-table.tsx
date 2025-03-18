@@ -11,6 +11,8 @@ import { StationList, StationReport } from '@/modal/station';
 import { TremEew } from '@/modal/trem';
 import { distance, findLocationByCode, findMaxInt, formatTime, getIntensityClass, getLpgmClass, intensity_float_to_int, intensity_list } from '@/lib/utils';
 
+import { DialogDataMessage } from './warn-message';
+
 interface EarthquakeDataProps {
   initialData: {
     earthquakeInfo: EarthquakeInfo;
@@ -56,6 +58,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
 
   return (
     <div>
+      <DialogDataMessage />
       <div className="flex cursor-pointer items-center justify-start pl-2 pt-2">
         <a
           onClick={() => void router.push(`/?${params.toString()}`)}
@@ -185,14 +188,6 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
           <Progress value={100} className="h-1" />
         </div>
       )}
-
-      <div className="px-8 pt-2 text-center text-lg font-bold text-black">
-        <div className="rounded-2xl border-2 border-red-500 bg-red-100">
-          <a>僅供參考 實際結果請依 中央氣象署 發布之內容為準</a>
-          <br />
-          <a>下方表格中 資料來源均為 TREM !!!</a>
-        </div>
-      </div>
 
       <div className={`
         text-l flex max-w-full justify-center divide-x divide-gray-400
