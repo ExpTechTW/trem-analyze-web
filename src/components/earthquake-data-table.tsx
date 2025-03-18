@@ -75,16 +75,20 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
         </a>
       </div>
 
-      <div className="text-l flex justify-center divide-x-1 py-8 text-center">
-        <div className="px-8">
+      <div className={`
+        text-l flex max-w-full justify-center divide-x divide-gray-400
+        overflow-hidden p-4 py-8 text-center
+      `}
+      >
+        <div className="px-6">
           <p className="font-bold">EventID</p>
           <p>{formatTime(Number(earthquakeInfo.ID)).replaceAll('/', '').replaceAll(':', '').replace(' ', '')}</p>
         </div>
-        <div className="px-8">
+        <div className="px-6">
           <p className="font-bold">發表單位</p>
           <p>{`TREM(${earthquakeInfo.Source})`}</p>
         </div>
-        <div className="px-8">
+        <div className="px-6">
           <p className="font-bold">檢知時刻</p>
           <p>{formatTime(Number(earthquakeInfo.ID))}</p>
         </div>
