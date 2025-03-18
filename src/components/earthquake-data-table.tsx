@@ -188,9 +188,9 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
 
       <div className="px-8 pt-2 text-center text-lg font-bold text-black">
         <div className="rounded-2xl border-2 border-red-500 bg-red-100">
-          <a className="">僅供參考 實際結果請依 中央氣象署 發布之內容為準</a>
+          <a>僅供參考 實際結果請依 中央氣象署 發布之內容為準</a>
           <br />
-          <a>下方表格中 若未特別註記 資料來源均為 TREM</a>
+          <a>下方表格中 資料來源均為 TREM !!!</a>
         </div>
       </div>
 
