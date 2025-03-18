@@ -60,7 +60,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
         <a
           onClick={() => void router.push(`/?${params.toString()}`)}
           className={`
-            flex items-center space-x-2 rounded-md bg-sky-400 px-3 py-1.5
+            flex items-center space-x-2 rounded-2xl bg-sky-400 px-3 py-1.5
             shadow-sm transition
             hover:bg-sky-500
           `}
@@ -76,7 +76,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
       </div>
 
       {earthquakeInfo.Cwa_id && (
-        <div className="p-8">
+        <div className="px-8 pb-4 pt-6">
           <Table className="w-full border-collapse border border-gray-300">
             <TableHeader>
               <TableRow className={`
@@ -186,9 +186,17 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
         </div>
       )}
 
+      <div className="px-8 pt-2 text-center text-lg font-bold text-black">
+        <div className="rounded-2xl border-2 border-red-500 bg-red-100">
+          <a className="">僅供參考 實際結果請依 中央氣象署 發布之內容為準</a>
+          <br />
+          <a>下方表格中 若未特別註記 資料來源均為 TREM</a>
+        </div>
+      </div>
+
       <div className={`
         text-l flex max-w-full justify-center divide-x divide-gray-400
-        overflow-hidden p-4 py-8 text-center
+        overflow-hidden p-4 py-6 text-center
       `}
       >
         <div className="px-6">
@@ -205,7 +213,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
         </div>
       </div>
 
-      <div className="pb-8 pl-8 pr-8">
+      <div className="pb-4 pl-8 pr-8">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
             <TableRow className={`
@@ -384,7 +392,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
         <Progress value={100} className="h-1" />
       </div>
 
-      <div className="pb-8 pl-8 pr-8">
+      <div className="pl-8 pr-8 pt-4">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
             <TableRow className={`
