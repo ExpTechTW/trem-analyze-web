@@ -33,8 +33,8 @@ export function DialogDataMessage() {
           `}
           >
             <span>實際結果請依中央氣象署發布之內容為準</span>
+            <br />
             <span className="font-bold">資料來源均為 TREM !!!</span>
-
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
@@ -66,6 +66,7 @@ export function DialogInfoMessage() {
           `}
           >
             <span>實際結果請依 中央氣象署 發布之內容為準</span>
+            <br />
             <span className="font-bold">若未特別註記 資料來源均為 TREM</span>
           </DialogDescription>
         </DialogHeader>
