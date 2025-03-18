@@ -26,7 +26,7 @@ import {
 } from '@/components/ui/table';
 
 import { EnhancedPagination } from './enhanced-pagination';
-import { DialogInfoMessage } from './warn-message';
+import { DialogInfoMessage } from './warn-dialog';
 
 interface MonthData {
   'year-month': string;

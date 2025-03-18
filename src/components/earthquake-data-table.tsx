@@ -11,7 +11,7 @@ import { StationList, StationReport } from '@/modal/station';
 import { TremEew } from '@/modal/trem';
 import { distance, findLocationByCode, findMaxInt, formatTime, getIntensityClass, getLpgmClass, intensity_float_to_int, intensity_list } from '@/lib/utils';
 
-import { DialogDataMessage } from './warn-message';
+import { DialogDataMessage } from './warn-dialog';
 
 interface EarthquakeDataProps {
   initialData: {
