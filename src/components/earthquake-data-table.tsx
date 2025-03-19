@@ -11,6 +11,8 @@ import { StationList, StationReport } from '@/modal/station';
 import { TremEew } from '@/modal/trem';
 import { distance, findLocationByCode, findMaxInt, formatTime, getIntensityClass, getLpgmClass, intensity_float_to_int, intensity_list } from '@/lib/utils';
 
+import { DialogDataMessage } from './warn-dialog';
+
 interface EarthquakeDataProps {
   initialData: {
     earthquakeInfo: EarthquakeInfo;
@@ -56,11 +58,12 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
 
   return (
     <div>
+      <DialogDataMessage />
       <div className="flex cursor-pointer items-center justify-start pl-2 pt-2">
         <a
           onClick={() => void router.push(`/?${params.toString()}`)}
           className={`
-            flex items-center space-x-2 rounded-md bg-sky-400 px-3 py-1.5
+            flex items-center space-x-2 rounded-2xl bg-sky-400 px-3 py-1.5
             shadow-sm transition
             hover:bg-sky-500
           `}
@@ -75,39 +78,24 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
         </a>
       </div>
 
-      <div className={`
-        text-l flex max-w-full justify-center divide-x divide-gray-400
-        overflow-hidden p-4 py-8 text-center
-      `}
-      >
-        <div className="px-6">
-          <p className="font-bold">EventID</p>
-          <p>{formatTime(Number(earthquakeInfo.ID)).replaceAll('/', '').replaceAll(':', '').replace(' ', '')}</p>
-        </div>
-        <div className="px-6">
-          <p className="font-bold">發表單位</p>
-          <p>{`TREM(${earthquakeInfo.Source})`}</p>
-        </div>
-        <div className="px-6">
-          <p className="font-bold">檢知時刻</p>
-          <p>{formatTime(Number(earthquakeInfo.ID))}</p>
-        </div>
-      </div>
-
       {earthquakeInfo.Cwa_id && (
-        <div className="mx-8 my-3">
-          <Progress value={100} className="h-1" />
-        </div>
-      )}
-
-      {earthquakeInfo.Cwa_id && (
-        <div className="p-4 text-center text-3xl font-bold">CWA 地震報告</div>
-      )}
-
-      {earthquakeInfo.Cwa_id && (
-        <div className="p-8">
+        <div className="px-8 pb-4 pt-6">
           <Table className="w-full border-collapse border border-gray-300">
             <TableHeader>
+              <TableRow className={`
+                bg-primary
+                hover:bg-primary
+              `}
+              >
+                <TableHead
+                  colSpan={8}
+                  className={`
+                    text-l border border-gray-500 text-center font-bold
+                  `}
+                >
+                  CWA 地震報告
+                </TableHead>
+              </TableRow>
               <TableRow className={`
                 bg-primary
                 hover:bg-primary
@@ -159,7 +147,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
                   text-l border border-gray-500 text-center font-bold
                 `}
                 >
-                  CWA地震報告
+                  網站
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -184,12 +172,9 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
                 <TableCell className="border border-gray-300 text-center">
                   <a
                     href={`https://www.cwa.gov.tw/V8/C/E/EQ/EQ${earthquakeInfo.Cwa_id.split('-')[0]}-${earthquakeInfo.Cwa_id.split('-')[2]}-${earthquakeInfo.Cwa_id.split('-')[3]}.html`}
-                    className={`
-                      text-primary
-                      hover:underline
-                    `}
+                    className="text-primary underline"
                   >
-                    點擊前往
+                    Link
                   </a>
                 </TableCell>
               </TableRow>
@@ -198,21 +183,46 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
         </div>
       )}
 
-      {/* {earthquakeInfo.Cwa_id && (
+      {earthquakeInfo.Cwa_id && (
         <div className="mx-8 my-3">
           <Progress value={100} className="h-1" />
         </div>
-      )} */}
+      )}
 
-      <div className="mx-8 my-3">
-        <Progress value={100} className="h-1" />
+      <div className={`
+        text-l flex max-w-full justify-center divide-x divide-gray-400
+        overflow-hidden p-4 py-6 text-center
+      `}
+      >
+        <div className="px-6">
+          <p className="font-bold">EventID</p>
+          <p>{formatTime(Number(earthquakeInfo.ID)).replaceAll('/', '').replaceAll(':', '').replace(' ', '')}</p>
+        </div>
+        <div className="px-6">
+          <p className="font-bold">發表單位</p>
+          <p>{`TREM(${earthquakeInfo.Source})`}</p>
+        </div>
+        <div className="px-6">
+          <p className="font-bold">檢知時刻</p>
+          <p>{formatTime(Number(earthquakeInfo.ID))}</p>
+        </div>
       </div>
 
-      <div className="p-4 text-center text-3xl font-bold">TREM EEW</div>
-
-      <div className="pb-8 pl-8 pr-8">
+      <div className="pb-4 pl-8 pr-8">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
+            <TableRow className={`
+              bg-primary
+              hover:bg-primary
+            `}
+            >
+              <TableHead
+                colSpan={17}
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                TREM EEW
+              </TableHead>
+            </TableRow>
             <TableRow className={`
               bg-primary
               hover:bg-primary
@@ -246,7 +256,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
                 colSpan={13}
                 className="text-l border border-gray-500 text-center font-bold"
               >
-                震源・EEW資訊
+                震源・EEW 資訊
               </TableHead>
             </TableRow>
 
@@ -377,11 +387,21 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
         <Progress value={100} className="h-1" />
       </div>
 
-      <div className="p-4 text-center text-3xl font-bold">TREM 測站紀錄數據</div>
-
-      <div className="pb-8 pl-8 pr-8">
+      <div className="pl-8 pr-8 pt-4">
         <Table className="w-full border-collapse border border-gray-300">
           <TableHeader>
+            <TableRow className={`
+              bg-primary
+              hover:bg-primary
+            `}
+            >
+              <TableHead
+                colSpan={18}
+                className="text-l border border-gray-500 text-center font-bold"
+              >
+                TREM 測站紀錄數據
+              </TableHead>
+            </TableRow>
             <TableRow className={`
               bg-primary
               hover:bg-primary

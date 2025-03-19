@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/table';
 
 import { EnhancedPagination } from './enhanced-pagination';
+import { DialogInfoMessage } from './warn-dialog';
 
 interface MonthData {
   'year-month': string;
@@ -94,6 +95,7 @@ export default function EarthquakeInfoTable({ initialData, page, dev, month }: E
 
   return (
     <div>
+      <DialogInfoMessage />
       <div className="mb-4 mt-4 flex w-full justify-center">
         <div className="w-48">
           <Select value={selectedMonth} onValueChange={handleMonthChange}>
