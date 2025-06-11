@@ -167,7 +167,7 @@ export default function EarthquakeData({ initialData, dev }: EarthquakeDataProps
                   ${getIntensityClass(findMaxInt(earthquakeReport.list))}
                 `}
                 >
-                  {findMaxInt(earthquakeReport.list)}
+                  {intensity_list[findMaxInt(earthquakeReport.list)]}
                 </TableCell>
                 <TableCell className="border border-gray-300 text-center">
                   <a
